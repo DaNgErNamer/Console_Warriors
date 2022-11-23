@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Actions : MonoBehaviour
+public partial class Enemy : Units
 {
-    public Actions() { }
+    public Enemy() { }
 }

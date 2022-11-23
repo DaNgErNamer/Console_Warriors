@@ -5,48 +5,40 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    public Units player; 
+    public Level(UIHandler UI)
+    {
+        this.UI = UI;
+    }
+    public Units player;
     public Units enemy;
     public int stage = 0;
+    public int turn = 0;
     public UIHandler UI;
-    private void Start()
+    public void Level_Start(UIHandler UI)
     {
-        UI.playerUI.HealthFill = 0.5f;
-    }
-
-    void StartStage()
-    {
-        Debug.Log("Level Script start");
-        player = new Player();
+        this.UI = UI;
         stage = 0;
+        turn = 0;
+        Level_Core();
     }
-
-    public IEnumerator CoreCoroutine()
+    private  void Level_Core()
     {
-        enemy = EnemyChoose(); //Barbarian for now
-
-        while (player.health > 0 || enemy.health > 0)
-        {
-            stage++;
-            Debug.Log("New stage started - " + stage);
-           
-            PlayerStage();
-            EnemyStage();
-            RestStage();
-            yield return new WaitForSeconds(5);
-        }
+        turn++;
+        PlayerStage();      
+        EnemyStage();
+        //RestStage();
     }
     private void PlayerStage()
     {
-        player.LightAttack(player, enemy);
-        Debug.Log("player deal damage to enemy -" + enemy.LightAttack_Damage);
-        Debug.Log("enemy's health now - " + player.health);
+        if (UI.button_LightAttack_clicked) player.LightAttack(player,enemy);
+        if (UI.button_PierceAttack_clicked) player.PierceAttack(player, enemy);
+        if (UI.button_HeavyAttack_clicked) player.HeavyAttack(player, enemy);
+        if (UI.button_ShieldUp_clicked) player.ShieldUp(player);
+        if (UI.button_SkipTurn_clicked) player.SkipTurn(player);
     }
     private void EnemyStage()
     {
         enemy.LightAttack(enemy, player);
-        Debug.Log("enemy deal damage to player -" + enemy.LightAttack_Damage);
-        Debug.Log("player's health now - " + player.health);
     }
     private void RestStage()
     {

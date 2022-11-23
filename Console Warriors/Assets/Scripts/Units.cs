@@ -13,20 +13,129 @@ using UnityEngine;
 public class Units : MonoBehaviour
 {
     public Units() { } // Всё что есть у юнита, в том числе игрока
+    public BarStatusScript UI;
     //Stats
     #region stats
-    public float health { get; set; } = 100;
-    public float healthRest { get; set; } = 5;
-    public int energy { get; set; } = 100;
-    public int energyRest { get; set; } = 10;
-    public float armor { get; set; } = 0;
-    public float armorRest { get; set; } = 0;
+    protected float _health=100;
+    protected float _healthRest = 5;
+    protected int _energy = 100;
+    protected int _energyRest = 10;
+    protected float _armor = 0;
+    protected float _armorRest = 0;
+    protected float _max_Health = 100;
+    protected float _max_Energy = 100;
+    protected float _max_Armor = 100;
+
+    public float max_Armor
+    {
+        get
+        {
+            return _max_Armor;
+        }
+
+        set
+        {
+            _max_Armor = value;
+        }
+    }
     public float evasionChance { get; set; } = 5;
 
     public float LightAttack_Damage { get; set; } = 10;
     public float PirceAttack_Damage { get; set; } = 10;
     public float HeavyAttack_Damage { get; set; } = 10;
 
+    #endregion
+    #region stats-properties
+    public float health
+    {
+        get
+        {
+            return _health;
+        }
+        set
+        {
+            _health = value;
+            UI.HealthFill = (float)((_health * 100 / max_Health)/100);
+        }
+    }
+    public float healthRest
+    {
+        get
+        {
+            return _healthRest;
+        }
+        set
+        {
+            _healthRest = value;
+        }
+    }
+    public int energy
+    {
+        get
+        {
+            return _energy;
+        }
+        set
+        {
+            _energy = value;
+        }
+    }
+    public int energyRest
+    {
+        get
+        {
+            return _energyRest;
+        }
+        set
+        {
+            _energyRest = value;
+        }
+    }
+    public float armor
+    {
+        get
+        {
+            return _armor;
+        }
+        set
+        {
+            _armor = value;
+            if (_armor < 0) _armor = 0;
+        }
+    }
+    public float armorRest
+    {
+        get
+        {
+            return _armorRest;
+        }
+        set
+        {
+            _armorRest = value;
+        }
+    }
+    public float max_Health
+    {
+        get
+        {
+            return _max_Health;
+        }
+        set
+        {
+            _max_Health = value;
+        }
+    }
+    public float max_Energy
+    {
+        get
+        {
+            return _max_Energy;
+        }
+        set
+        {
+            _max_Energy = value;
+        }
+    }
     #endregion
     // Actions
     #region actions
@@ -55,9 +164,19 @@ public class Units : MonoBehaviour
         defender.armor -= damage;
     }
 
+    public void ShieldUp(Units actor)
+    {
+        Debug.Log("Not implemented");
+    }
+
+    public void SkipTurn(Units actor)
+    {
+        Debug.Log("Not implemented");
+    }
+
     float Calculate_DamageThroughtArmor( Units defender,float Damage, string attack_type) // Старый скрипт рассчета урона через броню
     {
-        float pierce_Damage, origin_damage, debug;
+        float pierce_Damage, origin_damage;
         pierce_Damage = 0;
         origin_damage = Damage;
         if (attack_type == "Light")
@@ -113,21 +232,13 @@ public class Units : MonoBehaviour
 }
 [Serializable]
 public partial class Player : Units 
-{
+{ }
 
-}
+public partial class Enemy : Units
+{ }
 
 [Serializable]
-public class Barbarian : Units
+public partial class Barbarian : Enemy
 {
-    public Barbarian(){}
 
-    public new float health = 120;
-    public new int energy = 100;
-    public new float armor = 0;
-    //public override float LightAttack(Units attacker, Units defender)
-    //{
-    //    defender.health -= attacker.LightAttack_Damage;
-    //    return defender.health;
-    //}
 }
