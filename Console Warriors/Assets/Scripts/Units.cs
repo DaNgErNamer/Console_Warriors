@@ -55,6 +55,7 @@ public class Units : MonoBehaviour
         set
         {
             _health = value;
+            if (_health > _max_Health) _health = _max_Health; // Обеспечивает невозможность дальнейшего прироста ХП свыше установленного максимума
             UI.HealthFill = (float)((_health * 100 / max_Health)/100);
         }
     }
@@ -142,7 +143,7 @@ public class Units : MonoBehaviour
     public void LightAttack(Units attacker, Units defender)
     {
         float damage = Calculate_DamageThroughtArmor(defender,attacker.LightAttack_Damage, "Light"); // Рассчет урона по герою с учетом доспехов
-        defender.health -= damage; 
+        defender.health -= damage;
 
         damage = Calculate_ArmorDestruction(defender, attacker.LightAttack_Damage, "Light"); // Рассчет урона по доспехам
         defender.armor -= damage;
