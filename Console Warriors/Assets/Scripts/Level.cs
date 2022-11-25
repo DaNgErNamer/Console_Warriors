@@ -21,32 +21,44 @@ public class Level : MonoBehaviour
         turn = 0;
         Level_Core();
     }
-    private  void Level_Core()
+    private void Level_Core()
     {
         turn++;
-        PlayerStage();      
-        EnemyStage();
-        //RestStage();
+        PlayerStage(); // Ход игрока
+        EnemyStage(); // Ход противника
+       // RestStage(); // Ход восстановления
     }
     private void PlayerStage()
     {
-        if (UI.button_LightAttack_clicked) player.LightAttack(player,enemy);
-        if (UI.button_PierceAttack_clicked) player.PierceAttack(player, enemy);
-        if (UI.button_HeavyAttack_clicked) player.HeavyAttack(player, enemy);
-        if (UI.button_ShieldUp_clicked) player.ShieldUp(player);
-        if (UI.button_SkipTurn_clicked) player.SkipTurn(player);
+        bool actionSucceded = false; // Отвечает за успешность действия.
+
+        if (UI.button_LightAttack_clicked) actionSucceded = player.actions.LightAttack(player, enemy);
+        if (UI.button_PierceAttack_clicked) actionSucceded = player.actions.PierceAttack(player, enemy);
+        if (UI.button_HeavyAttack_clicked) actionSucceded = player.actions.HeavyAttack(player, enemy);
+        if (UI.button_ShieldUp_clicked) actionSucceded =  player.actions.ShieldUp(player);
+        if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.SkipTurn(player);
+        
+        if(actionSucceded!=true)
+        {
+            UnsuccessfulActionHappend();
+        }
     }
+
+    private void UnsuccessfulActionHappend() // Обработчик, на случай, если действие не было выполнено
+    {
+        Debug.Log("Выполнено неуспешное действие");
+    }
+
     private void EnemyStage()
     {
-        enemy.LightAttack(enemy, player);
+        enemy.actions.LightAttack(enemy, player);
     }
     private void RestStage()
     {
         player.Rest();
         enemy.Rest();
     }
-
-
+    
     private Units EnemyChoose()
     {
         Units enemy = new Barbarian();

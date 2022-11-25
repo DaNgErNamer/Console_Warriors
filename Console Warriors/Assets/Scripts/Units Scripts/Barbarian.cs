@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Barbarian : Enemy
+public class Barbarian : Enemy
 { 
     public Barbarian()
+    {
+
+    }
+    private void Start()
     {
         _health = 120;
         _max_Health = 120;

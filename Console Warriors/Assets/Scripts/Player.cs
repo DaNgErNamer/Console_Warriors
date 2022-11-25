@@ -8,4 +8,8 @@ public partial class Player : Units
     { 
 
     }
+    private void Start()
+    {
+       
+    }
 }
