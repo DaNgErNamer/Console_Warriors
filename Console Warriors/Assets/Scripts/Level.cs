@@ -5,56 +5,60 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    public Units player; 
+    public Level(UIHandler UI)
+    {
+        this.UI = UI;
+    }
+    public Units player;
     public Units enemy;
     public int stage = 0;
+    public int turn = 0;
     public UIHandler UI;
-    private void Start()
+    public void Level_Start(UIHandler UI)
     {
-        UI.playerUI.HealthFill = 0.5f;
-    }
-
-    void StartStage()
-    {
-        Debug.Log("Level Script start");
-        player = new Player();
+        this.UI = UI;
         stage = 0;
+        turn = 0;
+        Level_Core();
     }
-
-    public IEnumerator CoreCoroutine()
+    private void Level_Core()
     {
-        enemy = EnemyChoose(); //Barbarian for now
-
-        while (player.health > 0 || enemy.health > 0)
-        {
-            stage++;
-            Debug.Log("New stage started - " + stage);
-           
-            PlayerStage();
-            EnemyStage();
-            RestStage();
-            yield return new WaitForSeconds(5);
-        }
+        turn++;
+        PlayerStage(); // Ход игрока
+        EnemyStage(); // Ход противника
+       // RestStage(); // Ход восстановления
     }
     private void PlayerStage()
     {
-        player.LightAttack(player, enemy);
-        Debug.Log("player deal damage to enemy -" + enemy.LightAttack_Damage);
-        Debug.Log("enemy's health now - " + player.health);
+        bool actionSucceded = false; // Отвечает за успешность действия.
+
+        if (UI.button_LightAttack_clicked) actionSucceded = player.actions.LightAttack(player, enemy);
+        if (UI.button_PierceAttack_clicked) actionSucceded = player.actions.PierceAttack(player, enemy);
+        if (UI.button_HeavyAttack_clicked) actionSucceded = player.actions.HeavyAttack(player, enemy);
+        if (UI.button_ShieldUp_clicked) actionSucceded =  player.actions.ShieldUp(player);
+        if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.SkipTurn(player);
+        
+        if(actionSucceded!=true)
+        {
+            UnsuccessfulActionHappend();
+        }
     }
+
+    private void UnsuccessfulActionHappend() // Обработчик, на случай, если действие не было выполнено
+    {
+        Debug.Log("Выполнено неуспешное действие");
+    }
+
     private void EnemyStage()
     {
-        enemy.LightAttack(enemy, player);
-        Debug.Log("enemy deal damage to player -" + enemy.LightAttack_Damage);
-        Debug.Log("player's health now - " + player.health);
+        enemy.actions.LightAttack(enemy, player);
     }
     private void RestStage()
     {
         player.Rest();
         enemy.Rest();
     }
-
-
+    
     private Units EnemyChoose()
     {
         Units enemy = new Barbarian();

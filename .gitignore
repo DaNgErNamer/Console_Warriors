@@ -5,6 +5,7 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
+[Tt]extMesh Pro/
 
 # Never ignore Asset meta data
 ![Aa]ssets/**/*.meta
