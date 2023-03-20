@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Level : MonoBehaviour
 {
@@ -26,8 +27,12 @@ public class Level : MonoBehaviour
         turn++;
         PlayerStage(); // Ход игрока
         EnemyStage(); // Ход противника
-       // RestStage(); // Ход восстановления
+        RestStage(); // Ход восстановления
+        AfterLever(); // Когда все походили, делаем проверки
     }
+
+
+
     private void PlayerStage()
     {
         bool actionSucceded = false; // Отвечает за успешность действия.
@@ -58,13 +63,21 @@ public class Level : MonoBehaviour
         player.Rest();
         enemy.Rest();
     }
-    
+    private void AfterLever()
+    {
+        if (player.IsDead()) GameOver();
+    }
+
     private Units EnemyChoose()
     {
         Units enemy = new Barbarian();
         return enemy;
     }
 
+    private void GameOver()
+    {
+        SceneManager.LoadScene("GameEnd", LoadSceneMode.Single);
+    }
     // Update is called once per frame
     //void Update()
     //{

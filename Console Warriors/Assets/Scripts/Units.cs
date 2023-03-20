@@ -145,6 +145,7 @@ public class Units : MonoBehaviour
         }
     }
     #endregion
+
     #region actions
     public void Rest()
     {
@@ -159,10 +160,17 @@ public class Units : MonoBehaviour
     public Weapons weapon = new NoWeapon();
     #endregion
 
+    #region devActions
     void Start()
     {
 
     }
+    public bool IsDead()
+    {
+        if (this.health <= 0) return true;
+        else return false;
+    }
+    #endregion
 }
 [Serializable]
 public partial class Player : Units 
