@@ -21,30 +21,34 @@ public class UIHandler : MonoBehaviour
     public bool button_SkipTurn_clicked = false;
 
     #region buttons
-    private void LightAttack_Click()
+    public void LightAttack_Click()
     {
         button_LightAttack_clicked = true;
         levelHandler.Level_Start(this);
     }
 
-    private void PierceAttack_Click()
+    public void PierceAttack_Click()
     {
         button_PierceAttack_clicked = true;
+        levelHandler.Level_Start(this);
     }
 
-    private void HeavyAttack_Click()
+    public void HeavyAttack_Click()
     {
         button_HeavyAttack_clicked = true;
+        levelHandler.Level_Start(this);
     }
 
-    private void ShieldUp()
+    public void ShieldUp()
     {
         button_ShieldUp_clicked = true;
+        levelHandler.Level_Start(this);
     }
 
-    private void SkipTurn()
+    public void SkipTurn()
     {
         button_SkipTurn_clicked = true;
+        levelHandler.Level_Start(this);
     }
 
     public void Clear_Clicks() //—брасывает все клики
