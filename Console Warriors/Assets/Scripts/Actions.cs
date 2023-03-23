@@ -125,7 +125,7 @@ public class Actions
 
         actor.energy -= shieldUp_cost;
 
-        Debug.Log("Not implemented");
+        //Debug.Log("Not implemented");
         return true;
     }
     public bool SkipTurn(Units actor)
@@ -134,7 +134,7 @@ public class Actions
 
         actor.energy -= skipTurn_cost;
 
-        Debug.Log("Not implemented");
+        //Debug.Log("Not implemented");
         return true;
     }
     float Calculate_DamageThroughtArmor(Units defender, float Damage, string attack_type) // Старый скрипт рассчета урона через броню
@@ -181,5 +181,4 @@ public class Actions
         else return false;
     }
     #endregion
-
 }

@@ -28,6 +28,7 @@ public class Units : MonoBehaviour
     protected float _max_Health = 100;
     protected int _max_Energy = 100;
     protected float _max_Armor = 100;
+    protected int _shield = 0;
 
     public float max_Armor
     {
@@ -60,6 +61,7 @@ public class Units : MonoBehaviour
             _health = value;
             if (_health > _max_Health) _health = _max_Health; // Обеспечивает невозможность дальнейшего прироста ХП свыше установленного максимума
             UI.HealthFill = (float)((_health * 100 / _max_Health)/100);
+            UI.HealthText.text = _health.ToString() + "/" + _max_Health.ToString() + "+" + _healthRest;
         }
     }
     public int energy
@@ -73,6 +75,7 @@ public class Units : MonoBehaviour
             _energy = value;
             if (_energy > _max_Energy) _energy = _max_Energy; // Обеспечивает невозможность дальнейшего прироста энергии свыше установленного максимума
             UI.EnergyFill = (float)(((float)_energy * 100 / (float)_max_Energy) / 100);
+            UI.EnergyText.text = _energy.ToString() + "/" + _max_Energy.ToString() + "+" + _energyRest;
         }
     }
     public float armor
@@ -87,6 +90,7 @@ public class Units : MonoBehaviour
             if (_armor > _max_Armor) _armor = _max_Armor; // Обеспечивает невозможность дальнейшего прироста брони свыше установленного максимума
             if (_armor < 0) _armor = 0; // Пока что ограничиваем броню левым диапазоном
             UI.ArmorFill = (float)((_armor * 100 / _max_Armor) / 100);
+            UI.ArmorText.text = _armor.ToString() + "/" + _max_Armor.ToString() + "+" + _armorRest;
         }
     }
     public float healthRest
