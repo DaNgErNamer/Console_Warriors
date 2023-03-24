@@ -18,20 +18,24 @@ public class Level : MonoBehaviour
     public void Level_Start(UIHandler UI)
     {
         this.UI = UI;
-        stage = 0;
-        turn = 0;
         Level_Core();
     }
     private void Level_Core()
     {
         turn++;
+        SetLevelUI();
+
         PlayerStage(); // Ход игрока
         EnemyStage(); // Ход противника
         RestStage(); // Ход восстановления
         AfterLever(); // Когда все походили, делаем проверки
     }
 
-
+    private void SetLevelUI()
+    {
+        UI.TurnDisplay.text = "Turn - " + turn.ToString();
+        UI.StageDisplay.text = "Stage - " + stage.ToString();
+    }
 
     private void PlayerStage()
     {
@@ -40,10 +44,10 @@ public class Level : MonoBehaviour
         if (UI.button_LightAttack_clicked) actionSucceded = player.actions.LightAttack(player, enemy);
         if (UI.button_PierceAttack_clicked) actionSucceded = player.actions.PierceAttack(player, enemy);
         if (UI.button_HeavyAttack_clicked) actionSucceded = player.actions.HeavyAttack(player, enemy);
-        if (UI.button_ShieldUp_clicked) actionSucceded =  player.actions.ShieldUp(player);
+        if (UI.button_ShieldUp_clicked) actionSucceded = player.actions.ShieldUp(player);
         if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.SkipTurn(player);
-        
-        if(actionSucceded!=true)
+
+        if (actionSucceded != true)
         {
             UnsuccessfulActionHappend();
         }
@@ -78,9 +82,4 @@ public class Level : MonoBehaviour
     {
         SceneManager.LoadScene("GameEnd", LoadSceneMode.Single);
     }
-    // Update is called once per frame
-    //void Update()
-    //{
-        
-    //}
 }

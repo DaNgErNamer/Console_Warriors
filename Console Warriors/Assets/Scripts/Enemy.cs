@@ -4,5 +4,8 @@ using UnityEngine;
 
 public partial class Enemy : Units
 {
-    public Enemy() { }
+    public Enemy()
+    {
+
+    }
 }

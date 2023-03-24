@@ -8,7 +8,5 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
     public UIHandler UiHandler;
     void Start()
     {
-        
-    }
-
+    } 
 }

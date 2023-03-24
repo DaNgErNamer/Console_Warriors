@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using TMPro;
 
 public class UIHandler : MonoBehaviour
 {
+    public UIHandler()
+    {
+        StageDisplay.text = "Stage - 1";
+        TurnDisplay.text = "Turn - 1";
+    }
     public Button button_LightAttack;
     public Button button_PierceAttack;
     public Button button_HeavyAttack;
@@ -19,6 +25,9 @@ public class UIHandler : MonoBehaviour
     public bool button_HeavyAttack_clicked = false;
     public bool button_ShieldUp_clicked = false;
     public bool button_SkipTurn_clicked = false;
+
+    public TMP_Text StageDisplay;
+    public TMP_Text TurnDisplay;
 
     #region buttons
     public void LightAttack_Click()
