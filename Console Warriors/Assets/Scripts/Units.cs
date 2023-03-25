@@ -23,6 +23,7 @@ public class Units : MonoBehaviour
     protected Equipment equipment = new Equipment();
 
     #region stats
+    protected string name = "Base_Unit";
     protected float _health=100;
     protected float _healthRest = 5;
     protected int _energy = 100;

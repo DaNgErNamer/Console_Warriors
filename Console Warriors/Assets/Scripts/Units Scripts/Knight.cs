@@ -18,6 +18,7 @@ public class Knight : Enemy
         LightAttack_Damage = 20;
         healthRest = 15;
         energyRest = 30;
+        name = "Knight";
         this.Initialization();
     }
 }

@@ -12,6 +12,8 @@ public class UIHandler : MonoBehaviour
         StageDisplay.text = "Stage - 1";
         TurnDisplay.text = "Turn - 1";
     }
+
+
     public Button button_LightAttack;
     public Button button_PierceAttack;
     public Button button_HeavyAttack;
@@ -28,6 +30,7 @@ public class UIHandler : MonoBehaviour
 
     public TMP_Text StageDisplay;
     public TMP_Text TurnDisplay;
+    public TMP_Text EnemyNameDisplay;
 
     #region buttons
     public void LightAttack_Click()

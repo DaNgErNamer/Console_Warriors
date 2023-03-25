@@ -4,8 +4,13 @@ using UnityEngine;
 
 public partial class Enemy : Units
 {
-    public Enemy()
+    public Enemy() // Класс для последующего наследования для юнитов-противников.
     {
 
+    }
+
+    private void Start()
+    {
+        name = "Base_Enemy";
     }
 }
