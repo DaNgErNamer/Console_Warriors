@@ -1957,7 +1957,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -179.55298, w: -30.125366}
+  m_margin: {x: 0, y: 0, z: -573.7118, w: -30.125366}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1988,7 +1988,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5, y: 388}
+  m_AnchoredPosition: {x: -3, y: 388}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1407670954
@@ -2623,6 +2623,7 @@ MonoBehaviour:
   Enemy: {fileID: 1525290640}
   Knigth: {fileID: 7473927430507070722, guid: def3997aeedc1f545b9e0fc6af05d0d5, type: 3}
   Barbarian: {fileID: 2017101144772459388, guid: e14d7b9479f453c4a897cee761f5c91b, type: 3}
+  Rogue: {fileID: 2302273215296764655, guid: f5b13f47c362ca04f8f430c8a28748bb, type: 3}
 --- !u!4 &1731720481
 Transform:
   m_ObjectHideFlags: 0

@@ -83,7 +83,6 @@ public class Actions
     public bool LightAttack(Units attacker, Units defender)
     {
         if(!CheckEnergy(attacker, lightAttack_cost)) return false;
-
         attacker.energy -= lightAttack_cost;
 
         float damage = Calculate_DamageThroughtArmor(defender, attacker.LightAttack_Damage, "Light"); // –ассчет урона по герою с учетом доспехов
@@ -96,7 +95,6 @@ public class Actions
     public bool PierceAttack(Units attacker, Units defender)
     {
         if (!CheckEnergy(attacker, pierceAttack_cost)) return false;
-
         attacker.energy -= pierceAttack_cost;
 
         float damage = Calculate_DamageThroughtArmor(defender, attacker.LightAttack_Damage, "Pierce"); // –ассчет урона по герою с учетом доспехов
@@ -109,7 +107,6 @@ public class Actions
     public bool HeavyAttack(Units attacker, Units defender)
     {
         if (!CheckEnergy(attacker, heavyAttack_cost)) return false;
-
         attacker.energy -= heavyAttack_cost;
 
         float damage = Calculate_DamageThroughtArmor(defender, attacker.LightAttack_Damage, "Heavy"); // –ассчет урона по герою с учетом доспехов
@@ -125,7 +122,7 @@ public class Actions
 
         actor.energy -= shieldUp_cost;
 
-        //Debug.Log("Not implemented");
+        actor.shield = actor.max_Shield;
         return true;
     }
     public bool SkipTurn(Units actor)

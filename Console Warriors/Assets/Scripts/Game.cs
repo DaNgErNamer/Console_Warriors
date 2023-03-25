@@ -9,9 +9,23 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
 
     // Ememy - объект пустышка для заполнения любым противником, исключительно для единого имени и удобства.
     public GameObject Enemy;
+
     //Ниже список всех врагов,а именно префабов добавленных через инспектор, из них будет делаться выбор.
+    // Tier 1
     public GameObject Knigth;
     public GameObject Barbarian;
+    public GameObject Rogue;
+
+
+
+
+    enum Enemy_int
+    {
+        barbarian = 0,
+        knight = 1,
+        Rogue = 2 
+    }
+
 
     void Start()
     {
@@ -33,11 +47,29 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
 
     private void SetEnemy()
     {
-        //GameObject.Instantiate(Knigth); // Создание и иниициализация префаба Knight в сцене
-        //Knigth.transform.parent = Enemy.transform;  // Назначение префаба Knigth как дочерним в пустышку Enemy
-        //Enemy.transform.SetParent(Knigth.transform);
-        //Knigth.transform.SetParent(Enemy.transform);
-        Instantiate(Barbarian, Enemy.transform);
+        int choice = Random.Range(0, 3); // Рандомный выбор персонажей
+        switch (choice)
+        {
+            case 0:
+                {
+                    Instantiate(Barbarian, Enemy.transform);
+                    break;
+                }
+            case 1:
+                {
+                    Instantiate(Knigth, Enemy.transform);
+                    break;
+                }
+            case 2:
+                {
+                    Instantiate(Rogue, Enemy.transform);
+                    break;
+                }
 
+            default:
+                {
+                    break;
+                }
+        }
     }
 }

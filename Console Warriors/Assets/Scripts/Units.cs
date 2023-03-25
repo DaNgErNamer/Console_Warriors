@@ -53,6 +53,7 @@ public class Units : MonoBehaviour
     public float LightAttack_Damage { get; set; } = 10;
     public float PirceAttack_Damage { get; set; } = 10;
     public float HeavyAttack_Damage { get; set; } = 10;
+    public int evasion = 0;
 
     #endregion
     #region stats-properties
