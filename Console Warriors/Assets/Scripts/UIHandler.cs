@@ -32,6 +32,17 @@ public class UIHandler : MonoBehaviour
     public TMP_Text TurnDisplay;
     public TMP_Text EnemyNameDisplay;
 
+    public TMP_Text LightAttackDmg_Display;
+    public TMP_Text HeavyAttackDmg_Display;
+    public TMP_Text PierceAttackDmg_Display;
+    public TMP_Text ShieldUpAmount_Display;
+
+    public TMP_Text LightAttackCost_Display;
+    public TMP_Text HeavyAttackCost_Display;
+    public TMP_Text PierceAttackCost_Display;
+    public TMP_Text ShieldUpCost_Display;
+    
+
     #region buttons
     public void LightAttack_Click()
     {

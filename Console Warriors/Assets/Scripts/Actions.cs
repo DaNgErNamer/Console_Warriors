@@ -85,10 +85,13 @@ public class Actions
         if(!CheckEnergy(attacker, lightAttack_cost)) return false;
         attacker.energy -= lightAttack_cost;
 
-        float damage = Calculate_DamageThroughtArmor(defender, attacker.LightAttack_Damage, "Light"); // Рассчет урона по герою с учетом доспехов
+        float damage = Calcultate_ShieldDamage(attacker.LightAttack_Damage, defender); // рассчет урона по щиту
+
+
+        damage = Calculate_DamageThroughtArmor(defender, damage, "Light"); // Рассчет урона по герою с учетом доспехов
         defender.health -= damage;
 
-        damage = Calculate_ArmorDestruction(defender, attacker.LightAttack_Damage, "Light"); // Рассчет урона по доспехам
+        damage = Calculate_ArmorDestruction(defender, damage, "Light"); // Рассчет урона по доспехам
         defender.armor -= damage;
         return true;
     }
@@ -97,10 +100,12 @@ public class Actions
         if (!CheckEnergy(attacker, pierceAttack_cost)) return false;
         attacker.energy -= pierceAttack_cost;
 
-        float damage = Calculate_DamageThroughtArmor(defender, attacker.LightAttack_Damage, "Pierce"); // Рассчет урона по герою с учетом доспехов
+        float damage = Calcultate_ShieldDamage(attacker.PirceAttack_Damage, defender);
+
+        damage = Calculate_DamageThroughtArmor(defender, damage, "Pierce"); // Рассчет урона по герою с учетом доспехов
         defender.health -= damage;
 
-        damage = Calculate_ArmorDestruction(defender, attacker.LightAttack_Damage, "Pierce"); // Рассчет урона по доспехам
+        damage = Calculate_ArmorDestruction(defender, damage, "Pierce"); // Рассчет урона по доспехам
         defender.armor -= damage;
         return true;
     }
@@ -108,11 +113,12 @@ public class Actions
     {
         if (!CheckEnergy(attacker, heavyAttack_cost)) return false;
         attacker.energy -= heavyAttack_cost;
+        float damage = Calcultate_ShieldDamage(attacker.HeavyAttack_Damage, defender);
 
-        float damage = Calculate_DamageThroughtArmor(defender, attacker.LightAttack_Damage, "Heavy"); // Рассчет урона по герою с учетом доспехов
+        damage = Calculate_DamageThroughtArmor(defender, damage, "Heavy"); // Рассчет урона по герою с учетом доспехов
         defender.health -= damage;
 
-        damage = Calculate_ArmorDestruction(defender, attacker.LightAttack_Damage, "Heavy"); // Рассчет урона по доспехам
+        damage = Calculate_ArmorDestruction(defender, damage, "Heavy"); // Рассчет урона по доспехам
         defender.armor -= damage;
         return true;
     }
@@ -123,6 +129,8 @@ public class Actions
         actor.energy -= shieldUp_cost;
 
         actor.shield = actor.max_Shield;
+
+        Debug.Log(actor + " Поднял щит");
         return true;
     }
     public bool SkipTurn(Units actor)
@@ -171,6 +179,24 @@ public class Actions
         }
 
         return Armor;
+    }
+    float  Calcultate_ShieldDamage(float damage, Units defender) // Рассчет урона по щиту
+    {
+        int damage_int = Convert.ToInt32(damage);
+        int damage_throgh_shield = 0;
+
+        damage_throgh_shield = damage_int - defender.shield;
+        if(damage_throgh_shield < 0) // Если урон <0 значит щит не был пробит
+        {
+            defender.shield = defender.shield - damage_int;
+            return 0f;
+        }
+        else
+        {
+            defender.shield = defender.shield - damage_int;
+            return damage_throgh_shield;
+        }
+        
     }
     bool CheckEnergy(Units actor, int cost)
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class BarStatusScript : MonoBehaviour
 {
@@ -38,5 +39,10 @@ public class BarStatusScript : MonoBehaviour
         Enegrybar.fillAmount = EnergyFill;
         Shieldbar.fillAmount = ShieldFill;
 
+    }
+
+    internal void Initialization(Units actor)
+    {
+        
     }
 }

@@ -14,10 +14,8 @@ public class Units : MonoBehaviour
 {
     // Поля начинающиеся с нижнего подчеркивания _* - НЕ должны изменятся где-либо и как-либо кроме этого и производного классов.
     // Для изменения значений использовать открытые свойства! 
-    public Units()
-    {
-       // Initialization();
-    } // Всё что есть у юнита, в том числе игрока
+    public Units(){} // Всё что есть у юнита, в том числе игрока
+
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
     public Actions actions = new Actions();
     protected Equipment equipment = new Equipment();
@@ -49,13 +47,13 @@ public class Units : MonoBehaviour
         }
     }
     public float evasionChance { get; set; } = 5;
-
     public float LightAttack_Damage { get; set; } = 10;
     public float PirceAttack_Damage { get; set; } = 10;
     public float HeavyAttack_Damage { get; set; } = 10;
     public int evasion = 0;
 
     #endregion
+
     #region stats-properties
     public float health
     {
@@ -108,7 +106,14 @@ public class Units : MonoBehaviour
         }
         set
         {
-            _shield = value;
+            if(value<=0)
+            {
+                _shield = 0;
+            }
+            else
+            {
+                _shield = value;
+            }
             UI.ShieldFill = (float)((_shield * 100 / _max_Shield) / 100);
             UI.ShieldText.text = _shield.ToString() + "/" + _max_Shield.ToString();
         }
@@ -168,7 +173,6 @@ public class Units : MonoBehaviour
             _max_Energy = value;
         }
     }
-
     public int max_Shield
     {
         get
@@ -200,17 +204,59 @@ public class Units : MonoBehaviour
     }
     #endregion
 
-
-
     #region devActions
     void Start()
     {
-
+        //this.UI.Initialization(this);
     }
     public bool IsDead()
     {
         if (this.health <= 0) return true;
         else return false;
+    }
+    #endregion
+
+    #region AI
+    public virtual void AI_Work(Units actor, Units enemy) // Базовый ИИ для юнитов, каждый потом будет перезаписывать под себя.
+    {
+        int random = UnityEngine.Random.Range(0, 5);
+        switch (random)
+        {
+            case 0:
+                {
+                    actions.LightAttack(actor, enemy);
+                    Debug.Log("Противник проводит легкую атаку");
+                    break;
+                }
+            case 1:
+                {
+                    actions.HeavyAttack(actor, enemy);
+                    Debug.Log("Противник проводит тяжелую атаку");
+                    break;
+                }
+            case 2:
+                {
+                    actions.PierceAttack(actor, enemy);
+                    Debug.Log("Противник проводит проникающую атаку");
+                    break;
+                }
+            case 3:
+                {
+                    actions.ShieldUp(actor);
+                    Debug.Log("Противник ставит щит");
+                    break;
+                }
+            case 4:
+                {
+                    actions.SkipTurn(actor);
+                    Debug.Log("Противник пропускает ход");
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
     }
     #endregion
 }
@@ -220,4 +266,5 @@ public partial class Player : Units
 
 public partial class Enemy : Units
 { }
+
 

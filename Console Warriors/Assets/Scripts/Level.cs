@@ -35,6 +35,17 @@ public class Level : MonoBehaviour
     {
         UI.TurnDisplay.text = "Turn - " + turn.ToString();
         UI.StageDisplay.text = "Stage - " + stage.ToString();
+
+        UI.LightAttackDmg_Display.text = player.LightAttack_Damage.ToString() + " DMG";
+        UI.HeavyAttackDmg_Display.text = player.HeavyAttack_Damage.ToString() + " DMG";
+        UI.PierceAttackDmg_Display.text = player.PirceAttack_Damage.ToString() + " DMG";
+        UI.ShieldUpAmount_Display.text = player.max_Shield.ToString() + " SHLD";
+
+        UI.LightAttackCost_Display.text = "-" + player.actions.lightAttack_cost.ToString() + " ENG";
+        UI.HeavyAttackCost_Display.text = "-" + player.actions.heavyAttack_cost.ToString() + " ENG";
+        UI.PierceAttackCost_Display.text = "-" + player.actions.pierceAttack_cost.ToString() + " ENG";
+        UI.ShieldUpCost_Display.text = "-" + player.actions.shieldUp_cost.ToString() + " ENG";
+
     }
 
     private void PlayerStage()
@@ -60,7 +71,8 @@ public class Level : MonoBehaviour
 
     private void EnemyStage()
     {
-        enemy.actions.LightAttack(enemy, player);
+        //enemy.actions.LightAttack(enemy, player);
+        enemy.AI_Work(enemy, player);
     }
     private void RestStage()
     {
@@ -69,6 +81,7 @@ public class Level : MonoBehaviour
     }
     private void AfterLever()
     {
+        UI.Clear_Clicks();
         if (player.IsDead()) GameOver();
     }
 
