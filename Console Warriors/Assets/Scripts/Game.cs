@@ -6,9 +6,70 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
 {
     public Level LevelHandler;
     public UIHandler UiHandler;
-    void Start()
+
+    // Ememy - объект пустышка для заполнения любым противником, исключительно для единого имени и удобства.
+    public GameObject Enemy;
+
+    //Ниже список всех врагов,а именно префабов добавленных через инспектор, из них будет делаться выбор.
+    // Tier 1
+    public GameObject Knigth;
+    public GameObject Barbarian;
+    public GameObject Rogue;
+
+
+
+
+    enum Enemy_int
     {
-        
+        barbarian = 0,
+        knight = 1,
+        Rogue = 2 
     }
 
+
+    void Start()
+    {
+        SetEnemy();
+        LevelHandler.enemy = PickEnemy();
+
+        UiHandler.TurnDisplay.text = "1";
+        UiHandler.StageDisplay.text = "1";
+        UiHandler.EnemyNameDisplay.text = LevelHandler.enemy.name;
+    } 
+
+    private Units PickEnemy()
+    {
+
+        //GameObject enemy = GameObject.Find("Enemy");
+        Units unit = Enemy.GetComponentInChildren<Units>();
+        return unit;
+    }
+
+    private void SetEnemy()
+    {
+        int choice = Random.Range(0, 3); // Рандомный выбор персонажей
+        switch (choice)
+        {
+            case 0:
+                {
+                    Instantiate(Barbarian, Enemy.transform);
+                    break;
+                }
+            case 1:
+                {
+                    Instantiate(Knigth, Enemy.transform);
+                    break;
+                }
+            case 2:
+                {
+                    Instantiate(Rogue, Enemy.transform);
+                    break;
+                }
+
+            default:
+                {
+                    break;
+                }
+        }
+    }
 }

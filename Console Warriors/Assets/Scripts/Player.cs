@@ -5,11 +5,11 @@ using UnityEngine;
 public partial class Player : Units 
 {
     public Player()
-    { 
+    {
 
     }
     private void Start()
     {
-       
+        this.Initialization();
     }
 }

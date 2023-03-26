@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using TMPro;
 
 public class UIHandler : MonoBehaviour
 {
+    public UIHandler()
+    {
+        StageDisplay.text = "Stage - 1";
+        TurnDisplay.text = "Turn - 1";
+    }
+
+
     public Button button_LightAttack;
     public Button button_PierceAttack;
     public Button button_HeavyAttack;
@@ -20,31 +28,50 @@ public class UIHandler : MonoBehaviour
     public bool button_ShieldUp_clicked = false;
     public bool button_SkipTurn_clicked = false;
 
+    public TMP_Text StageDisplay;
+    public TMP_Text TurnDisplay;
+    public TMP_Text EnemyNameDisplay;
+
+    public TMP_Text LightAttackDmg_Display;
+    public TMP_Text HeavyAttackDmg_Display;
+    public TMP_Text PierceAttackDmg_Display;
+    public TMP_Text ShieldUpAmount_Display;
+
+    public TMP_Text LightAttackCost_Display;
+    public TMP_Text HeavyAttackCost_Display;
+    public TMP_Text PierceAttackCost_Display;
+    public TMP_Text ShieldUpCost_Display;
+    
+
     #region buttons
-    private void LightAttack_Click()
+    public void LightAttack_Click()
     {
         button_LightAttack_clicked = true;
         levelHandler.Level_Start(this);
     }
 
-    private void PierceAttack_Click()
+    public void PierceAttack_Click()
     {
         button_PierceAttack_clicked = true;
+        levelHandler.Level_Start(this);
     }
 
-    private void HeavyAttack_Click()
+    public void HeavyAttack_Click()
     {
         button_HeavyAttack_clicked = true;
+        levelHandler.Level_Start(this);
     }
 
-    private void ShieldUp()
+    public void ShieldUp()
     {
         button_ShieldUp_clicked = true;
+        levelHandler.Level_Start(this);
     }
 
-    private void SkipTurn()
+    public void SkipTurn()
     {
         button_SkipTurn_clicked = true;
+        levelHandler.Level_Start(this);
     }
 
     public void Clear_Clicks() //—брасывает все клики
