@@ -23,8 +23,9 @@ public class Units : MonoBehaviour
     public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
 
     #region stats
-    protected string unit_name = "Base_Unit";
+    internal string unit_name;
     protected float _health=100;
+
     protected float _healthRest = 5;
     protected int _energy = 100;
     protected int _energyRest = 10;
@@ -198,7 +199,7 @@ public class Units : MonoBehaviour
         this.energy += energyRest;
         this.armor += armorRest;
     }
-    public void Initialization()
+    public virtual void Initialization()
     {
         health = health;
         shield = shield;

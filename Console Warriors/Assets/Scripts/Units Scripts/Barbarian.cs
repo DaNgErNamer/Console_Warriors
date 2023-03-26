@@ -6,6 +6,7 @@ public class Barbarian : Enemy
 { 
     public Barbarian()
     {
+        unit_name = "Barbarian";
 
     }
     private void Start()
@@ -13,6 +14,5 @@ public class Barbarian : Enemy
         _health = 120;
         _max_Health = 120;
         LightAttack_Damage = 30;
-        unit_name = "Barbarian";
     }
 }

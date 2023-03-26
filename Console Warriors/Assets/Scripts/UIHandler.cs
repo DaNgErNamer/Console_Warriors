@@ -9,8 +9,8 @@ public class UIHandler : MonoBehaviour
 {
     public UIHandler()
     {
-        StageDisplay.text = "Stage - 1";
-        TurnDisplay.text = "Turn - 1";
+        //StageDisplay.text = "Stage - 1";
+        //TurnDisplay.text = "Turn - 1";
     }
 
 
@@ -32,15 +32,15 @@ public class UIHandler : MonoBehaviour
     public TMP_Text TurnDisplay;
     public TMP_Text EnemyNameDisplay;
 
-    public TMP_Text LightAttackDmg_Display;
-    public TMP_Text HeavyAttackDmg_Display;
-    public TMP_Text PierceAttackDmg_Display;
-    public TMP_Text ShieldUpAmount_Display;
+    //public TMP_Text LightAttackDmg_Display;
+    //public TMP_Text HeavyAttackDmg_Display;
+    //public TMP_Text PierceAttackDmg_Display;
+    //public TMP_Text ShieldUpAmount_Display;
 
-    public TMP_Text LightAttackCost_Display;
-    public TMP_Text HeavyAttackCost_Display;
-    public TMP_Text PierceAttackCost_Display;
-    public TMP_Text ShieldUpCost_Display;
+    //public TMP_Text LightAttackCost_Display;
+    //public TMP_Text HeavyAttackCost_Display;
+    //public TMP_Text PierceAttackCost_Display;
+    //public TMP_Text ShieldUpCost_Display;
     
 
     #region buttons
@@ -83,6 +83,12 @@ public class UIHandler : MonoBehaviour
         button_SkipTurn_clicked = false;
     }
     #endregion
+
+    private void Start()
+    {
+        StageDisplay.text = "Stage - 1";
+        TurnDisplay.text = "Turn - 1";
+    }
 
 
 }

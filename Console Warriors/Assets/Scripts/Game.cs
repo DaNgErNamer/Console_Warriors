@@ -34,7 +34,7 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
 
         UiHandler.TurnDisplay.text = "1";
         UiHandler.StageDisplay.text = "1";
-        UiHandler.EnemyNameDisplay.text = LevelHandler.enemy.name;
+        UiHandler.EnemyNameDisplay.text = LevelHandler.enemy.unit_name;
     } 
 
     private Units PickEnemy()

@@ -8,8 +8,8 @@ public class FloatingPointsHandler : MonoBehaviour
     void Start()
     {
         Destroy(gameObject, 2f);
-        float randomPos_x = Random.Range(0, 50f);
-        float randomPos_y = Random.Range(0, 30f);
+        float randomPos_x = Random.Range(-50f, 50f);
+        float randomPos_y = Random.Range(-30f, 30f);
         transform.localPosition += new Vector3(randomPos_x, randomPos_y, 25f);
     }
 }
