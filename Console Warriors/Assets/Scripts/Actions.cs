@@ -14,9 +14,9 @@ public class Actions
     public Actions() { }
     #region private fields
     private int _lightAttack_cost = 10;
-    private int _pierceAttack_cost = 15;
-    private int _heavyAttack_cost = 15;
-    private int _shieldUp_cost = 10;
+    private int _pierceAttack_cost = 20;
+    private int _heavyAttack_cost = 20;
+    private int _shieldUp_cost = 25;
     private int _skipTurn_cost = 0;
     #endregion
 
@@ -90,9 +90,12 @@ public class Actions
 
         damage = Calculate_DamageThroughtArmor(defender, damage, "Light"); // Рассчет урона по герою с учетом доспехов
         defender.health -= damage;
+        defender.CreateFloatingPoints(defender, damage, "health");
 
         damage = Calculate_ArmorDestruction(defender, damage, "Light"); // Рассчет урона по доспехам
+        if(defender.armor!=0) defender.CreateFloatingPoints(defender, damage, "armor");
         defender.armor -= damage;
+        
         return true;
     }
     public bool PierceAttack(Units attacker, Units defender)
@@ -104,8 +107,10 @@ public class Actions
 
         damage = Calculate_DamageThroughtArmor(defender, damage, "Pierce"); // Рассчет урона по герою с учетом доспехов
         defender.health -= damage;
+        defender.CreateFloatingPoints(defender, damage, "health");
 
         damage = Calculate_ArmorDestruction(defender, damage, "Pierce"); // Рассчет урона по доспехам
+        if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
         defender.armor -= damage;
         return true;
     }
@@ -117,8 +122,10 @@ public class Actions
 
         damage = Calculate_DamageThroughtArmor(defender, damage, "Heavy"); // Рассчет урона по герою с учетом доспехов
         defender.health -= damage;
+        defender.CreateFloatingPoints(defender, damage, "health");
 
         damage = Calculate_ArmorDestruction(defender, damage, "Heavy"); // Рассчет урона по доспехам
+        if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
         defender.armor -= damage;
         return true;
     }
@@ -184,17 +191,25 @@ public class Actions
     {
         int damage_int = Convert.ToInt32(damage);
         int damage_throgh_shield = 0;
-
-        damage_throgh_shield = damage_int - defender.shield;
-        if(damage_throgh_shield < 0) // Если урон <0 значит щит не был пробит
+        if (defender.shield != 0) //Если щита вовсе нет
         {
-            defender.shield = defender.shield - damage_int;
-            return 0f;
+            damage_throgh_shield = damage_int - defender.shield;
+            if (damage_throgh_shield < 0) // Если урон <0 значит щит не был пробит
+            {
+                defender.shield = defender.shield - damage_int;
+                defender.CreateFloatingPoints(defender, damage_int, "shield");
+                return 0f;
+            }
+            else
+            {
+                defender.shield = defender.shield - damage_int;
+                defender.CreateFloatingPoints(defender, defender.shield, "shield");
+                return damage_throgh_shield;
+            }
         }
         else
         {
-            defender.shield = defender.shield - damage_int;
-            return damage_throgh_shield;
+            return damage;
         }
         
     }
@@ -203,5 +218,6 @@ public class Actions
         if (actor.energy - cost > 0) return true;
         else return false;
     }
+
     #endregion
 }

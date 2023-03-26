@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using TMPro;
 
 [Serializable]
 public class Units : MonoBehaviour
@@ -19,9 +20,10 @@ public class Units : MonoBehaviour
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
     public Actions actions = new Actions();
     protected Equipment equipment = new Equipment();
+    public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
 
     #region stats
-    protected string name = "Base_Unit";
+    protected string unit_name = "Base_Unit";
     protected float _health=100;
     protected float _healthRest = 5;
     protected int _energy = 100;
@@ -81,6 +83,7 @@ public class Units : MonoBehaviour
             if (_energy > _max_Energy) _energy = _max_Energy; // Обеспечивает невозможность дальнейшего прироста энергии свыше установленного максимума
             UI.EnergyFill = (float)(((float)_energy * 100 / (float)_max_Energy) / 100);
             UI.EnergyText.text = _energy.ToString() + "/" + _max_Energy.ToString() + " +" + _energyRest;
+
         }
     }
     public float armor
@@ -213,6 +216,35 @@ public class Units : MonoBehaviour
     {
         if (this.health <= 0) return true;
         else return false;
+    }
+
+    public void CreateFloatingPoints (Units unit, float damage, string damageType)
+    {
+        GameObject points = Instantiate(FloatingPoints, transform.position, Quaternion.identity) as GameObject;
+        points.transform.GetChild(0).GetComponent<TMP_Text>().text = String.Format("{0:0.0}", damage);
+        switch (damageType)
+        {
+            case "health":
+                {
+                    points.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.red;
+                    break;
+                }
+            case "armor":
+                {
+                    points.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.gray;
+                    break;
+                }
+            case "shield":
+                {
+                    points.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.cyan;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+
     }
     #endregion
 

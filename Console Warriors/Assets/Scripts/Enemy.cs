@@ -11,6 +11,6 @@ public partial class Enemy : Units
 
     private void Start()
     {
-        name = "Base_Enemy";
+        unit_name = "Base_Enemy";
     }
 }
