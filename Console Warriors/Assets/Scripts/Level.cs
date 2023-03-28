@@ -49,10 +49,11 @@ public class Level : MonoBehaviour
     private void PlayerStage()
     {
         bool actionSucceded = false; // Отвечает за успешность действия.
-
+        player.EffectsCheck(); // Проверка эффектов + их действия
         if (UI.button_LightAttack_clicked) actionSucceded = player.actions.LightAttack(player, enemy);
         if (UI.button_PierceAttack_clicked) actionSucceded = player.actions.PierceAttack(player, enemy);
         if (UI.button_HeavyAttack_clicked) actionSucceded = player.actions.HeavyAttack(player, enemy);
+        if (UI.button_Evade_clicked) actionSucceded = player.actions.TryToEvade(player);
         if (UI.button_ShieldUp_clicked) actionSucceded = player.actions.ShieldUp(player);
         if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.SkipTurn(player);
 
@@ -69,7 +70,7 @@ public class Level : MonoBehaviour
 
     private void EnemyStage()
     {
-        //enemy.actions.LightAttack(enemy, player);
+        enemy.EffectsCheck();
         enemy.AI_Work(enemy, player);
     }
     private void RestStage()

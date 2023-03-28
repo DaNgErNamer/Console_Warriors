@@ -18,6 +18,7 @@ public class Actions
     private int _heavyAttack_cost = 20;
     private int _shieldUp_cost = 25;
     private int _skipTurn_cost = 0;
+    private int _tryToEvade_cost = 10;
     #endregion
 
     #region public properties
@@ -76,6 +77,8 @@ public class Actions
             _skipTurn_cost = value;
         }
     }
+
+    public int tryToEvade_cost { get; set; }
     #endregion
 
     #region actions
@@ -150,9 +153,9 @@ public class Actions
         return true;
     }
 
-    public bool TryToEvade(Units actor) // Необходимо доработать.
+    public bool TryToEvade(Units actor)
     {
-        actor.evasion += 40;
+        actor.effectsList.Add(new Effects.EvasionBoost(actor,40,4));
         return true;
     }
     float Calculate_DamageThroughtArmor(Units defender, float Damage, string attack_type) // Старый скрипт рассчета урона через броню

@@ -35,8 +35,6 @@ public class UIHandler : MonoBehaviour
     }
     public UIHandler()
     {
-        //StageDisplay.text = "Stage - 1";
-        //TurnDisplay.text = "Turn - 1";
     }
 
 
@@ -45,6 +43,7 @@ public class UIHandler : MonoBehaviour
     public Button button_HeavyAttack;
     public Button button_ShieldUp;
     public Button button_SkipTurn;
+    public Button button_Evade;
 
     public Level levelHandler;
 
@@ -53,6 +52,7 @@ public class UIHandler : MonoBehaviour
     public bool button_HeavyAttack_clicked = false;
     public bool button_ShieldUp_clicked = false;
     public bool button_SkipTurn_clicked = false;
+    public bool button_Evade_clicked = false;
 
     public TMP_Text StageDisplay;
     public TMP_Text TurnDisplay;
@@ -82,6 +82,12 @@ public class UIHandler : MonoBehaviour
         levelHandler.Level_Start();
     }
 
+    public void TryToEvade()
+    {
+        button_Evade_clicked = true;
+        levelHandler.Level_Start();
+    }
+
     public void HeavyAttack_Click()
     {
         button_HeavyAttack_clicked = true;
@@ -100,6 +106,7 @@ public class UIHandler : MonoBehaviour
         levelHandler.Level_Start();
     }
 
+
     public void Clear_Clicks() //—брасывает все клики
     {
         button_LightAttack_clicked = false;
@@ -107,6 +114,7 @@ public class UIHandler : MonoBehaviour
         button_HeavyAttack_clicked = false;
         button_ShieldUp_clicked = false;
         button_SkipTurn_clicked = false;
+        button_Evade_clicked = false;
     }
     #endregion
 

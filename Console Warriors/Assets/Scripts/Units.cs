@@ -20,6 +20,7 @@ public class Units : MonoBehaviour
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
     public Actions actions = new Actions();
     public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
+    internal List<Effects> effectsList = new List<Effects>();
 
     #region stats
     internal string unit_name;
@@ -205,6 +206,24 @@ public class Units : MonoBehaviour
         armor = armor;
         energy = energy;
     }
+     
+    public void EffectsCheck() // Проверяем все эффекты
+    {
+        for (int i = effectsList.Count - 1; i >= 0; i--) // Используется обратный цикл для безпроблемного удаления эффектов, без ошибки об изменении листа.
+        {
+            effectsList[i].turnsLeft--;
+            if (effectsList[i].turnsLeft <= 0) // Если время эффекта истекло - отменяем его действие и убираем из списка
+            {
+                effectsList[i].EndEffect();
+                effectsList.Remove(effectsList[i]);
+            }
+            else // Если не истекло - эффект действует.
+            {
+                effectsList[i].DoEffect();
+            }
+        }
+    }
+
     #endregion
 
     #region devActions
