@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using TMPro;
 
 [Serializable]
 public class Units : MonoBehaviour
@@ -18,11 +19,13 @@ public class Units : MonoBehaviour
 
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
     public Actions actions = new Actions();
-    protected Equipment equipment = new Equipment();
+    public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
+    internal List<Effects> effectsList = new List<Effects>();
 
     #region stats
-    protected string name = "Base_Unit";
+    internal string unit_name;
     protected float _health=100;
+
     protected float _healthRest = 5;
     protected int _energy = 100;
     protected int _energyRest = 10;
@@ -46,7 +49,6 @@ public class Units : MonoBehaviour
             _max_Armor = value;
         }
     }
-    public float evasionChance { get; set; } = 5;
     public float LightAttack_Damage { get; set; } = 10;
     public float PirceAttack_Damage { get; set; } = 10;
     public float HeavyAttack_Damage { get; set; } = 10;
@@ -81,6 +83,7 @@ public class Units : MonoBehaviour
             if (_energy > _max_Energy) _energy = _max_Energy; // Обеспечивает невозможность дальнейшего прироста энергии свыше установленного максимума
             UI.EnergyFill = (float)(((float)_energy * 100 / (float)_max_Energy) / 100);
             UI.EnergyText.text = _energy.ToString() + "/" + _max_Energy.ToString() + " +" + _energyRest;
+
         }
     }
     public float armor
@@ -114,7 +117,7 @@ public class Units : MonoBehaviour
             {
                 _shield = value;
             }
-            UI.ShieldFill = (float)((_shield * 100 / _max_Shield) / 100);
+            UI.ShieldFill = (float)(((float)_shield * 100 / (float)_max_Shield) / 100);
             UI.ShieldText.text = _shield.ToString() + "/" + _max_Shield.ToString();
         }
     }
@@ -195,13 +198,35 @@ public class Units : MonoBehaviour
         this.energy += energyRest;
         this.armor += armorRest;
     }
-    public void Initialization()
+    public virtual void Initialization()
     {
         health = health;
         shield = shield;
         armor = armor;
         energy = energy;
     }
+    public void EffectsCheck() // Проверяем все эффекты
+    {
+        for (int i = effectsList.Count - 1; i >= 0; i--) // Используется обратный цикл для безпроблемного удаления эффектов, без ошибки об изменении листа.
+        {
+            effectsList[i].turnsLeft--;
+            if (effectsList[i].turnsLeft <= 0) // Если время эффекта истекло - отменяем его действие и убираем из списка
+            {
+                effectsList[i].EndEffect();
+                effectsList.Remove(effectsList[i]);
+            }
+            else // Если не истекло - эффект действует.
+            {
+                effectsList[i].DoEffect();
+            }
+        }
+    }
+
+    public void Evaded_Display()
+    {
+        CreateFloatingPoints(this, "Evaded", Color.white);
+    }
+
     #endregion
 
     #region devActions
@@ -211,8 +236,48 @@ public class Units : MonoBehaviour
     }
     public bool IsDead()
     {
-        if (this.health <= 0) return true;
+        if (this.health <= 0)
+        {
+            //Destroy(this, 2f); // Освобождаем память и удаляем юнита
+            //Destroy(UI, 2f);
+            return true;
+        }
         else return false;
+    }
+
+    public void CreateFloatingPoints (Units unit, float damage, string damageType)
+    {
+        GameObject points = Instantiate(FloatingPoints, transform.position, Quaternion.identity) as GameObject;
+        points.transform.GetChild(0).GetComponent<TMP_Text>().text = String.Format("{0:0.0}", damage);
+        switch (damageType)
+        {
+            case "health":
+                {
+                    points.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.red;
+                    break;
+                }
+            case "armor":
+                {
+                    points.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.gray;
+                    break;
+                }
+            case "shield":
+                {
+                    points.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.cyan;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+    }
+
+    public void CreateFloatingPoints(Units unit, string text, Color color)
+    {
+        GameObject points = Instantiate(FloatingPoints, transform.position, Quaternion.identity) as GameObject;
+        points.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
+        points.transform.GetChild(0).GetComponent<TMP_Text>().color = color;
     }
     #endregion
 

@@ -6,6 +6,7 @@ public class Rogue : Enemy
 {
     public Rogue()
     {
+        unit_name = "Rogue";
 
     }
     void Start()
@@ -13,7 +14,6 @@ public class Rogue : Enemy
         max_Health = 100;
         armor = 0;
         evasion = 30;
-        name = "Rogue";
         this.Initialization();
     }
 

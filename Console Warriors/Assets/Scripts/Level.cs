@@ -6,24 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class Level : MonoBehaviour
 {
-    public Level(UIHandler UI)
+    public Level()
     {
-        this.UI = UI;
     }
     public Units player;
     public Units enemy;
-    public int stage = 0;
-    public int turn = 0;
     public UIHandler UI;
-    public void Level_Start(UIHandler UI)
+    public Game game;
+    public void Level_Start()
     {
-        this.UI = UI;
         Level_Core();
     }
     private void Level_Core()
     {
-        turn++;
-        SetLevelUI();
+        UI.turn++;
+
+        //SetLevelUI();
 
         PlayerStage(); // Ход игрока
         EnemyStage(); // Ход противника
@@ -33,28 +31,29 @@ public class Level : MonoBehaviour
 
     private void SetLevelUI()
     {
-        UI.TurnDisplay.text = "Turn - " + turn.ToString();
-        UI.StageDisplay.text = "Stage - " + stage.ToString();
+        //UI.TurnDisplay.text = "Turn - " + turn.ToString();
+        //UI.StageDisplay.text = "Stage - " + stage.ToString();
 
-        UI.LightAttackDmg_Display.text = player.LightAttack_Damage.ToString() + " DMG";
-        UI.HeavyAttackDmg_Display.text = player.HeavyAttack_Damage.ToString() + " DMG";
-        UI.PierceAttackDmg_Display.text = player.PirceAttack_Damage.ToString() + " DMG";
-        UI.ShieldUpAmount_Display.text = player.max_Shield.ToString() + " SHLD";
+        //UI.LightAttackDmg_Display.text = player.LightAttack_Damage.ToString() + " DMG";
+        //UI.HeavyAttackDmg_Display.text = player.HeavyAttack_Damage.ToString() + " DMG";
+        //UI.PierceAttackDmg_Display.text = player.PirceAttack_Damage.ToString() + " DMG";
+        //UI.ShieldUpAmount_Display.text = player.max_Shield.ToString() + " SHLD";
 
-        UI.LightAttackCost_Display.text = "-" + player.actions.lightAttack_cost.ToString() + " ENG";
-        UI.HeavyAttackCost_Display.text = "-" + player.actions.heavyAttack_cost.ToString() + " ENG";
-        UI.PierceAttackCost_Display.text = "-" + player.actions.pierceAttack_cost.ToString() + " ENG";
-        UI.ShieldUpCost_Display.text = "-" + player.actions.shieldUp_cost.ToString() + " ENG";
+        //UI.LightAttackCost_Display.text = "-" + player.actions.lightAttack_cost.ToString() + " ENG";
+        //UI.HeavyAttackCost_Display.text = "-" + player.actions.heavyAttack_cost.ToString() + " ENG";
+        //UI.PierceAttackCost_Display.text = "-" + player.actions.pierceAttack_cost.ToString() + " ENG";
+        //UI.ShieldUpCost_Display.text = "-" + player.actions.shieldUp_cost.ToString() + " ENG";
 
     }
 
     private void PlayerStage()
     {
         bool actionSucceded = false; // Отвечает за успешность действия.
-
+        player.EffectsCheck(); // Проверка эффектов + их действия
         if (UI.button_LightAttack_clicked) actionSucceded = player.actions.LightAttack(player, enemy);
         if (UI.button_PierceAttack_clicked) actionSucceded = player.actions.PierceAttack(player, enemy);
         if (UI.button_HeavyAttack_clicked) actionSucceded = player.actions.HeavyAttack(player, enemy);
+        if (UI.button_Evade_clicked) actionSucceded = player.actions.TryToEvade(player);
         if (UI.button_ShieldUp_clicked) actionSucceded = player.actions.ShieldUp(player);
         if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.SkipTurn(player);
 
@@ -71,7 +70,7 @@ public class Level : MonoBehaviour
 
     private void EnemyStage()
     {
-        //enemy.actions.LightAttack(enemy, player);
+        enemy.EffectsCheck();
         enemy.AI_Work(enemy, player);
     }
     private void RestStage()
@@ -82,15 +81,18 @@ public class Level : MonoBehaviour
     private void AfterLever()
     {
         UI.Clear_Clicks();
+        player.Initialization();
+        enemy.Initialization();
+
         if (player.IsDead()) GameOver();
+        if (enemy.IsDead()) NextStage();
     }
 
-    private Units EnemyChoose()
+    private void NextStage()
     {
-        Units enemy = new Barbarian();
-        return enemy;
+        UI.stage++;
+        game.NextStage();
     }
-
     private void GameOver()
     {
         SceneManager.LoadScene("GameEnd", LoadSceneMode.Single);
