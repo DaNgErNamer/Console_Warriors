@@ -78,7 +78,18 @@ public class Actions
         }
     }
 
-    public int tryToEvade_cost { get; set; }
+    public int tryToEvade_cost
+    {
+        get
+        {
+            return _tryToEvade_cost;
+        }
+
+        set
+        {
+            _tryToEvade_cost = value;
+        }
+    }
     #endregion
 
     #region actions
@@ -88,49 +99,72 @@ public class Actions
         if(!CheckEnergy(attacker, lightAttack_cost)) return false;
         attacker.energy -= lightAttack_cost;
 
-        float damage = Calcultate_ShieldDamage(attacker.LightAttack_Damage, defender); // рассчет урона по щиту
+        if (!IsTargetEvaded(defender))
+        {
+            float damage = Calcultate_ShieldDamage(attacker.LightAttack_Damage, defender); // рассчет урона по щиту
 
 
-        damage = Calculate_DamageThroughtArmor(defender, damage, "Light"); // –ассчет урона по герою с учетом доспехов
-        defender.health -= damage;
-        defender.CreateFloatingPoints(defender, damage, "health");
+            damage = Calculate_DamageThroughtArmor(defender, damage, "Light"); // –ассчет урона по герою с учетом доспехов
+            defender.health -= damage;
+            defender.CreateFloatingPoints(defender, damage, "health");
 
-        damage = Calculate_ArmorDestruction(defender, damage, "Light"); // –ассчет урона по доспехам
-        if(defender.armor!=0) defender.CreateFloatingPoints(defender, damage, "armor");
-        defender.armor -= damage;
-        
-        return true;
+            damage = Calculate_ArmorDestruction(defender, damage, "Light"); // –ассчет урона по доспехам
+            if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
+            defender.armor -= damage;
+
+            return true;
+        }
+        else
+        {
+            defender.Evaded_Display();
+            return true;
+        }
     }
     public bool PierceAttack(Units attacker, Units defender)
     {
         if (!CheckEnergy(attacker, pierceAttack_cost)) return false;
         attacker.energy -= pierceAttack_cost;
 
-        float damage = Calcultate_ShieldDamage(attacker.PirceAttack_Damage, defender);
+        if (!IsTargetEvaded(defender))
+        {
+            float damage = Calcultate_ShieldDamage(attacker.PirceAttack_Damage, defender);
 
-        damage = Calculate_DamageThroughtArmor(defender, damage, "Pierce"); // –ассчет урона по герою с учетом доспехов
-        defender.health -= damage;
-        defender.CreateFloatingPoints(defender, damage, "health");
+            damage = Calculate_DamageThroughtArmor(defender, damage, "Pierce"); // –ассчет урона по герою с учетом доспехов
+            defender.health -= damage;
+            defender.CreateFloatingPoints(defender, damage, "health");
 
-        damage = Calculate_ArmorDestruction(defender, damage, "Pierce"); // –ассчет урона по доспехам
-        if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-        defender.armor -= damage;
-        return true;
+            damage = Calculate_ArmorDestruction(defender, damage, "Pierce"); // –ассчет урона по доспехам
+            if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
+            defender.armor -= damage;
+            return true;
+        }
+        {
+            defender.Evaded_Display();
+            return true;
+        }
     }
     public bool HeavyAttack(Units attacker, Units defender)
     {
         if (!CheckEnergy(attacker, heavyAttack_cost)) return false;
         attacker.energy -= heavyAttack_cost;
-        float damage = Calcultate_ShieldDamage(attacker.HeavyAttack_Damage, defender);
 
-        damage = Calculate_DamageThroughtArmor(defender, damage, "Heavy"); // –ассчет урона по герою с учетом доспехов
-        defender.health -= damage;
-        defender.CreateFloatingPoints(defender, damage, "health");
+        if (!IsTargetEvaded(defender))
+        {
+            float damage = Calcultate_ShieldDamage(attacker.HeavyAttack_Damage, defender);
 
-        damage = Calculate_ArmorDestruction(defender, damage, "Heavy"); // –ассчет урона по доспехам
-        if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-        defender.armor -= damage;
-        return true;
+            damage = Calculate_DamageThroughtArmor(defender, damage, "Heavy"); // –ассчет урона по герою с учетом доспехов
+            defender.health -= damage;
+            defender.CreateFloatingPoints(defender, damage, "health");
+
+            damage = Calculate_ArmorDestruction(defender, damage, "Heavy"); // –ассчет урона по доспехам
+            if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
+            defender.armor -= damage;
+            return true;
+        }
+        {
+            defender.Evaded_Display();
+            return true;
+        }
     }
     public bool ShieldUp(Units actor)
     {
@@ -221,6 +255,13 @@ public class Actions
             return damage;
         }
         
+    }
+
+    bool IsTargetEvaded(Units enemy)
+    {
+        int number = UnityEngine.Random.Range(0, 101);
+        if (number > enemy.evasion) return false;
+        else return true;
     }
     bool CheckEnergy(Units actor, int cost)
     {

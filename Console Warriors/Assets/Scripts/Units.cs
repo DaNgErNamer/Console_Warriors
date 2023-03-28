@@ -49,7 +49,6 @@ public class Units : MonoBehaviour
             _max_Armor = value;
         }
     }
-    public float evasionChance { get; set; } = 5;
     public float LightAttack_Damage { get; set; } = 10;
     public float PirceAttack_Damage { get; set; } = 10;
     public float HeavyAttack_Damage { get; set; } = 10;
@@ -118,7 +117,7 @@ public class Units : MonoBehaviour
             {
                 _shield = value;
             }
-            UI.ShieldFill = (float)((_shield * 100 / _max_Shield) / 100);
+            UI.ShieldFill = (float)(((float)_shield * 100 / (float)_max_Shield) / 100);
             UI.ShieldText.text = _shield.ToString() + "/" + _max_Shield.ToString();
         }
     }
@@ -206,7 +205,6 @@ public class Units : MonoBehaviour
         armor = armor;
         energy = energy;
     }
-     
     public void EffectsCheck() // Проверяем все эффекты
     {
         for (int i = effectsList.Count - 1; i >= 0; i--) // Используется обратный цикл для безпроблемного удаления эффектов, без ошибки об изменении листа.
@@ -222,6 +220,11 @@ public class Units : MonoBehaviour
                 effectsList[i].DoEffect();
             }
         }
+    }
+
+    public void Evaded_Display()
+    {
+        CreateFloatingPoints(this, "Evaded", Color.white);
     }
 
     #endregion
@@ -268,7 +271,13 @@ public class Units : MonoBehaviour
                     break;
                 }
         }
+    }
 
+    public void CreateFloatingPoints(Units unit, string text, Color color)
+    {
+        GameObject points = Instantiate(FloatingPoints, transform.position, Quaternion.identity) as GameObject;
+        points.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
+        points.transform.GetChild(0).GetComponent<TMP_Text>().color = color;
     }
     #endregion
 
