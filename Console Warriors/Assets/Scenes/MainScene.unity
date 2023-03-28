@@ -1926,9 +1926,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1669776478}
   enemy: {fileID: 0}
-  stage: 0
-  turn: 0
   UI: {fileID: 1955311833}
+  game: {fileID: 1731720480}
 --- !u!4 &1850550490
 Transform:
   m_ObjectHideFlags: 0

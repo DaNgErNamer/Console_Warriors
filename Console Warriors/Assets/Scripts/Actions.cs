@@ -149,6 +149,12 @@ public class Actions
         //Debug.Log("Not implemented");
         return true;
     }
+
+    public bool TryToEvade(Units actor) // Необходимо доработать.
+    {
+        actor.evasion += 40;
+        return true;
+    }
     float Calculate_DamageThroughtArmor(Units defender, float Damage, string attack_type) // Старый скрипт рассчета урона через броню
     {
         float pierce_Damage, origin_damage;

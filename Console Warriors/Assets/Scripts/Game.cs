@@ -15,8 +15,7 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
     public GameObject Knigth;
     public GameObject Barbarian;
     public GameObject Rogue;
-
-
+    protected GameObject InstantiatedUnit;
 
 
     enum Enemy_int
@@ -31,16 +30,12 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
     {
         SetEnemy();
         LevelHandler.enemy = PickEnemy();
-
-        UiHandler.TurnDisplay.text = "1";
-        UiHandler.StageDisplay.text = "1";
         UiHandler.EnemyNameDisplay.text = LevelHandler.enemy.unit_name;
+        UiHandler.turn = 1;
     } 
 
     private Units PickEnemy()
     {
-
-        //GameObject enemy = GameObject.Find("Enemy");
         Units unit = Enemy.GetComponentInChildren<Units>();
         return unit;
     }
@@ -52,17 +47,17 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
         {
             case 0:
                 {
-                    Instantiate(Barbarian, Enemy.transform);
+                    InstantiatedUnit = Instantiate(Barbarian, Enemy.transform);
                     break;
                 }
             case 1:
                 {
-                    Instantiate(Knigth, Enemy.transform);
+                    InstantiatedUnit = Instantiate(Knigth, Enemy.transform);
                     break;
                 }
             case 2:
                 {
-                    Instantiate(Rogue, Enemy.transform);
+                    InstantiatedUnit = Instantiate(Rogue, Enemy.transform);
                     break;
                 }
 
@@ -72,4 +67,16 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
                 }
         }
     }
+
+    public void NextStage()
+    {
+        StartCoroutine(NextStageCoroutine());
+    }
+    private IEnumerator NextStageCoroutine()
+    {
+        Destroy(InstantiatedUnit);
+        yield return new WaitForSeconds(0.5F); //waits 0.5 seconds
+        Start();
+    }
+
 }

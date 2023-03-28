@@ -6,24 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class Level : MonoBehaviour
 {
-    public Level(UIHandler UI)
+    public Level()
     {
-        this.UI = UI;
     }
     public Units player;
     public Units enemy;
-    public int stage = 0;
-    public int turn = 0;
     public UIHandler UI;
-    public void Level_Start(UIHandler UI)
+    public Game game;
+    public void Level_Start()
     {
-        this.UI = UI;
         Level_Core();
     }
     private void Level_Core()
     {
-        turn++;
-        SetLevelUI();
+        UI.turn++;
+
+        //SetLevelUI();
 
         PlayerStage(); // Ход игрока
         EnemyStage(); // Ход противника
@@ -33,8 +31,8 @@ public class Level : MonoBehaviour
 
     private void SetLevelUI()
     {
-        UI.TurnDisplay.text = "Turn - " + turn.ToString();
-        UI.StageDisplay.text = "Stage - " + stage.ToString();
+        //UI.TurnDisplay.text = "Turn - " + turn.ToString();
+        //UI.StageDisplay.text = "Stage - " + stage.ToString();
 
         //UI.LightAttackDmg_Display.text = player.LightAttack_Damage.ToString() + " DMG";
         //UI.HeavyAttackDmg_Display.text = player.HeavyAttack_Damage.ToString() + " DMG";
@@ -84,15 +82,16 @@ public class Level : MonoBehaviour
         UI.Clear_Clicks();
         player.Initialization();
         enemy.Initialization();
+
         if (player.IsDead()) GameOver();
+        if (enemy.IsDead()) NextStage();
     }
 
-    private Units EnemyChoose()
+    private void NextStage()
     {
-        Units enemy = new Barbarian();
-        return enemy;
+        UI.stage++;
+        game.NextStage();
     }
-
     private void GameOver()
     {
         SceneManager.LoadScene("GameEnd", LoadSceneMode.Single);

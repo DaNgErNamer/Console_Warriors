@@ -19,7 +19,6 @@ public class Units : MonoBehaviour
 
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
     public Actions actions = new Actions();
-    protected Equipment equipment = new Equipment();
     public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
 
     #region stats
@@ -215,7 +214,12 @@ public class Units : MonoBehaviour
     }
     public bool IsDead()
     {
-        if (this.health <= 0) return true;
+        if (this.health <= 0)
+        {
+            //Destroy(this, 2f); // Освобождаем память и удаляем юнита
+            //Destroy(UI, 2f);
+            return true;
+        }
         else return false;
     }
 

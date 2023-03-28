@@ -33,6 +33,7 @@ public partial class Player : Units
     }
     private void Start()
     {
+        LightAttack_Damage = 25;
         this.Initialization();
     }
 }

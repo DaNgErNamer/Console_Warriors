@@ -12,13 +12,13 @@ public class Knight : Enemy
 
     private void Start()
     {
-        max_Health = 150;
-        health = 150;
+        max_Health = 100;
+        health = 100;
         max_Armor = 100;
-        armor = 50;
+        armor = 30;
         LightAttack_Damage = 20;
         healthRest = 15;
-        energyRest = 30;
+        energyRest = 8;
         this.Initialization();
     }
 }

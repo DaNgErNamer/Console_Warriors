@@ -7,6 +7,32 @@ using TMPro;
 
 public class UIHandler : MonoBehaviour
 {
+    public int turn
+    {
+        get
+        {
+            return _turn;
+        }
+        set
+        {
+            _turn = value;
+            TurnDisplay.text = "Turn - " +value.ToString();
+        }
+    }
+    protected int _turn;
+    protected int _stage;
+    public int stage
+    {
+        get
+        {
+            return _stage;
+        }
+        set
+        {
+            _stage = value;
+            StageDisplay.text = "Stage - " + value.ToString();
+        }
+    }
     public UIHandler()
     {
         //StageDisplay.text = "Stage - 1";
@@ -47,31 +73,31 @@ public class UIHandler : MonoBehaviour
     public void LightAttack_Click()
     {
         button_LightAttack_clicked = true;
-        levelHandler.Level_Start(this);
+        levelHandler.Level_Start();
     }
 
     public void PierceAttack_Click()
     {
         button_PierceAttack_clicked = true;
-        levelHandler.Level_Start(this);
+        levelHandler.Level_Start();
     }
 
     public void HeavyAttack_Click()
     {
         button_HeavyAttack_clicked = true;
-        levelHandler.Level_Start(this);
+        levelHandler.Level_Start();
     }
 
     public void ShieldUp()
     {
         button_ShieldUp_clicked = true;
-        levelHandler.Level_Start(this);
+        levelHandler.Level_Start();
     }
 
     public void SkipTurn()
     {
         button_SkipTurn_clicked = true;
-        levelHandler.Level_Start(this);
+        levelHandler.Level_Start();
     }
 
     public void Clear_Clicks() //—брасывает все клики
@@ -86,8 +112,8 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
-        StageDisplay.text = "Stage - 1";
-        TurnDisplay.text = "Turn - 1";
+        turn = 1;
+        stage = 1;
     }
 
 
