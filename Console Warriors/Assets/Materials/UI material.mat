@@ -266,7 +266,7 @@ Material:
     - _BaseColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
-    - _Color: {r: 0.3396226, g: 0.3396226, b: 0.3396226, a: 0.6392157}
+    - _Color: {r: 0.33962256, g: 0.33962256, b: 0.33962256, a: 0.6313726}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

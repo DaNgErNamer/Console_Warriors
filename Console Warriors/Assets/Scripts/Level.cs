@@ -13,6 +13,7 @@ public class Level : MonoBehaviour
     public Units enemy;
     public UIHandler UI;
     public Game game;
+    public AfterLevelBonusesHandler Bonuses;
     public void Level_Start()
     {
         Level_Core();
@@ -90,6 +91,7 @@ public class Level : MonoBehaviour
 
     private void NextStage()
     {
+        Bonuses.PrepareBonuses(UI.stage, player);
         UI.stage++;
         game.NextStage();
     }

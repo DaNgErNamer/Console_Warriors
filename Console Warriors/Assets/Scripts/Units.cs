@@ -36,6 +36,8 @@ public class Units : MonoBehaviour
     protected float _max_Armor = 100;
     protected int _shield = 0;
     protected int _max_Shield = 25;
+    protected int _bonuses = 3;
+    protected int maxBonuses = 7;
 
     public float max_Armor
     {
@@ -188,6 +190,18 @@ public class Units : MonoBehaviour
         }
     }
 
+    public int bonuses
+    {
+        get
+        {
+            return _bonuses;
+        }
+        set
+        {
+            _bonuses = value;
+            if (_bonuses > maxBonuses) _bonuses = maxBonuses;
+        }
+    }
   
     #endregion
 
