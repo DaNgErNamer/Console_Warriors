@@ -30,11 +30,12 @@ public partial class Player : Units
         ShieldUpAmount_Display.text = this.max_Shield.ToString() + " SHLD";
         EvasionAmount_Display.text =  "+30 EV";
 
-        LightAttackCost_Display.text = "-" + this.actions.lightAttack_cost.ToString() + " ENG";
-        HeavyAttackCost_Display.text = "-" + this.actions.heavyAttack_cost.ToString() + " ENG";
-        PierceAttackCost_Display.text = "-" + this.actions.pierceAttack_cost.ToString() + " ENG";
-        ShieldUpCost_Display.text = "-" + this.actions.shieldUp_cost.ToString() + " ENG";
-        EvasionCost_Display.text = "-" + this.actions.tryToEvade_cost.ToString() + " ENG";
+
+        LightAttackCost_Display.text = "-" + this.actions.lightAttack.cost.ToString() + " ENG";
+        HeavyAttackCost_Display.text = "-" + this.actions.heavyAttack.cost.ToString() + " ENG";
+        PierceAttackCost_Display.text = "-" + this.actions.pierceAttack.cost.ToString() + " ENG";
+        ShieldUpCost_Display.text = "-" + this.actions.shieldUp.cost.ToString() + " ENG";
+        EvasionCost_Display.text = "-" + this.actions.tryToEvade.cost.ToString() + " ENG";
     }
     private void Start()
     {

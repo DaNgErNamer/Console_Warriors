@@ -18,7 +18,7 @@ public class Units : MonoBehaviour
     public Units(){} // Всё что есть у юнита, в том числе игрока
 
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
-    public Actions actions = new Actions();
+    internal Actions actions = new Actions();
     public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
     internal List<Effects> effectsList = new List<Effects>();
 
@@ -303,31 +303,31 @@ public class Units : MonoBehaviour
         {
             case 0:
                 {
-                    actions.LightAttack(actor, enemy);
+                    actions.lightAttack.DoAttack(actor, enemy);
                     Debug.Log("Противник проводит легкую атаку");
                     break;
                 }
             case 1:
                 {
-                    actions.HeavyAttack(actor, enemy);
+                    actions.heavyAttack.DoAttack(actor, enemy);
                     Debug.Log("Противник проводит тяжелую атаку");
                     break;
                 }
             case 2:
                 {
-                    actions.PierceAttack(actor, enemy);
+                    actions.pierceAttack.DoAttack(actor, enemy);
                     Debug.Log("Противник проводит проникающую атаку");
                     break;
                 }
             case 3:
                 {
-                    actions.ShieldUp(actor);
+                    actions.shieldUp.Do(actor);
                     Debug.Log("Противник ставит щит");
                     break;
                 }
             case 4:
                 {
-                    actions.SkipTurn(actor);
+                    actions.skipTurn.Do(actor);
                     Debug.Log("Противник пропускает ход");
                     break;
                 }

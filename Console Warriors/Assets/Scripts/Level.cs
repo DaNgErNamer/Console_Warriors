@@ -51,12 +51,12 @@ public class Level : MonoBehaviour
     {
         bool actionSucceded = false; // Отвечает за успешность действия.
         player.EffectsCheck(); // Проверка эффектов + их действия
-        if (UI.button_LightAttack_clicked) actionSucceded = player.actions.LightAttack(player, enemy);
-        if (UI.button_PierceAttack_clicked) actionSucceded = player.actions.PierceAttack(player, enemy);
-        if (UI.button_HeavyAttack_clicked) actionSucceded = player.actions.HeavyAttack(player, enemy);
-        if (UI.button_Evade_clicked) actionSucceded = player.actions.TryToEvade(player);
-        if (UI.button_ShieldUp_clicked) actionSucceded = player.actions.ShieldUp(player);
-        if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.SkipTurn(player);
+        if (UI.button_LightAttack_clicked) actionSucceded = player.actions.lightAttack.DoAttack(player, enemy);
+        if (UI.button_PierceAttack_clicked) actionSucceded = player.actions.pierceAttack.DoAttack(player, enemy);
+        if (UI.button_HeavyAttack_clicked) actionSucceded = player.actions.heavyAttack.DoAttack(player, enemy);
+        if (UI.button_Evade_clicked) actionSucceded = player.actions.tryToEvade.Do(player);
+        if (UI.button_ShieldUp_clicked) actionSucceded = player.actions.shieldUp.Do(player);
+        if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.skipTurn.Do(player);
 
         if (actionSucceded != true)
         {
