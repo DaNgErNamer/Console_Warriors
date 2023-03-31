@@ -6,6 +6,7 @@
 [Bb]uilds/
 [Ll]ogs/
 [Tt]extMesh Pro/
+[Uu]serSettings/
 
 # Never ignore Asset meta data
 ![Aa]ssets/**/*.meta
@@ -61,4 +62,5 @@ crashlytics-build.properties
 Icon?
 ehthumbs.db
 Thumbs.db
+Thumbs.db.meta
 Console Warriors/.vsconfig
