@@ -16,7 +16,7 @@ public class Knight : Enemy
         health = 100;
         max_Armor = 100;
         armor = 30;
-        LightAttack_Damage = 20;
+        actions.lightAttack.damage = 20;
         healthRest = 15;
         energyRest = 8;
         this.Initialization();

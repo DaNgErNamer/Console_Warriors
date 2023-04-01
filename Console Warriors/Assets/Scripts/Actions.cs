@@ -22,6 +22,7 @@ internal class Actions
     internal class LightAttack
     {
         internal int cost = 10;
+        internal int damage = 25;
         internal bool DoAttack(Units attacker, Units defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
@@ -29,7 +30,7 @@ internal class Actions
 
             if (!IsTargetEvaded(defender))
             {
-                float damage = Calcultate_ShieldDamage(attacker.LightAttack_Damage, defender); // рассчет урона по щиту
+                float damage = Calcultate_ShieldDamage(this.damage, defender); // рассчет урона по щиту
 
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Light"); // Рассчет урона по герою с учетом доспехов
@@ -52,6 +53,7 @@ internal class Actions
     internal class HeavyAttack
     {
         internal int cost = 15;
+        internal int damage = 20;
         internal bool DoAttack(Units attacker, Units defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
@@ -59,7 +61,7 @@ internal class Actions
 
             if (!IsTargetEvaded(defender))
             {
-                float damage = Calcultate_ShieldDamage(attacker.HeavyAttack_Damage, defender);
+                float damage = Calcultate_ShieldDamage(this.damage, defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Heavy"); // Рассчет урона по герою с учетом доспехов
                 defender.health -= damage;
@@ -79,6 +81,7 @@ internal class Actions
     internal class PierceAttack
     {
         internal int cost = 15;
+        internal int damage = 20;
         internal bool DoAttack(Units attacker, Units defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
@@ -86,7 +89,7 @@ internal class Actions
 
             if (!IsTargetEvaded(defender))
             {
-                float damage = Calcultate_ShieldDamage(attacker.PirceAttack_Damage, defender);
+                float damage = Calcultate_ShieldDamage(this.damage, defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Pierce"); // Рассчет урона по герою с учетом доспехов
                 defender.health -= damage;

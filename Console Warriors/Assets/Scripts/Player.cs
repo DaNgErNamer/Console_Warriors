@@ -24,9 +24,9 @@ public partial class Player : Units
     public override void Initialization()
     {
         base.Initialization();
-        LightAttackDmg_Display.text = this.LightAttack_Damage.ToString() + " DMG";
-        HeavyAttackDmg_Display.text = this.HeavyAttack_Damage.ToString() + " DMG";
-        PierceAttackDmg_Display.text = this.PirceAttack_Damage.ToString() + " DMG";
+        LightAttackDmg_Display.text = this.actions.lightAttack.damage.ToString() + " DMG";
+        HeavyAttackDmg_Display.text = this.actions.heavyAttack.damage.ToString() + " DMG";
+        PierceAttackDmg_Display.text = this.actions.pierceAttack.damage.ToString() + " DMG";
         ShieldUpAmount_Display.text = this.max_Shield.ToString() + " SHLD";
         EvasionAmount_Display.text =  "+30 EV";
 
@@ -39,7 +39,6 @@ public partial class Player : Units
     }
     private void Start()
     {
-        LightAttack_Damage = 25;
         this.Initialization();
     }
 }

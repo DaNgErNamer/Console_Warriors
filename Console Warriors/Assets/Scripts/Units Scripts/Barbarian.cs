@@ -13,7 +13,7 @@ public class Barbarian : Enemy
     {
         _health = 120;
         _max_Health = 120;
-        LightAttack_Damage = 30;
+        actions.lightAttack.damage = 20;
         this.Initialization();
     }
 }

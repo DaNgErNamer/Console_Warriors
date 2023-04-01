@@ -17,10 +17,10 @@ public class BarStatusScript : MonoBehaviour
     public TMP_Text EnergyText;
     public TMP_Text ArmorText;
 
-    public float HealthFill;
-    public float ArmorFill;
-    public float EnergyFill;
-    public float ShieldFill;
+    //public float HealthFill;
+    //public float ArmorFill;
+    //public float EnergyFill;
+    //public float ShieldFill;
 
     // Start is called before the first frame update
     void Start()
@@ -34,11 +34,11 @@ public class BarStatusScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		//TODO: Dangername asked for removal
-        Healthbar.fillAmount = HealthFill;
-        Armorbar.fillAmount = ArmorFill;
-        Enegrybar.fillAmount = EnergyFill;
-        Shieldbar.fillAmount = ShieldFill;
+        //Healthbar.fillAmount = HealthFill;
+        //Armorbar.fillAmount = ArmorFill;
+        //Enegrybar.fillAmount = EnergyFill;
+        //Shieldbar.fillAmount = ShieldFill;
+
     }
 
     internal void Initialization(Units actor)
