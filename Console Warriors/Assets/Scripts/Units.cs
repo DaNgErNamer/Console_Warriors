@@ -18,7 +18,7 @@ public class Units : MonoBehaviour
     public Units(){} // Всё что есть у юнита, в том числе игрока
 
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
-    public Actions actions = new Actions();
+    internal Actions actions = new Actions();
     public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
     internal List<Effects> effectsList = new List<Effects>();
 
@@ -36,6 +36,8 @@ public class Units : MonoBehaviour
     protected float _max_Armor = 100;
     protected int _shield = 0;
     protected int _max_Shield = 25;
+    protected int _bonuses = 3;
+    protected int maxBonuses = 7;
 
     public float max_Armor
     {
@@ -49,9 +51,9 @@ public class Units : MonoBehaviour
             _max_Armor = value;
         }
     }
-    public float LightAttack_Damage { get; set; } = 10;
-    public float PirceAttack_Damage { get; set; } = 10;
-    public float HeavyAttack_Damage { get; set; } = 10;
+    //public float LightAttack_Damage { get; set; } = 10;
+    //public float PirceAttack_Damage { get; set; } = 10;
+    //public float HeavyAttack_Damage { get; set; } = 10;
     public int evasion = 0;
 
     #endregion
@@ -67,8 +69,8 @@ public class Units : MonoBehaviour
         {
             _health = value;
             if (_health > _max_Health) _health = _max_Health; // Обеспечивает невозможность дальнейшего прироста ХП свыше установленного максимума
-            UI.HealthFill = (float)((_health * 100 / _max_Health)/100);
-            UI.HealthText.text = _health.ToString() + "/" + _max_Health.ToString() + " +" + _healthRest;
+            UI.Healthbar.fillAmount = (float)((_health * 100 / _max_Health)/100);
+            UI.HealthText.text = String.Format("{0:0.0}", _health) + "/" + _max_Health.ToString() + " +" + _healthRest;
         }
     }
     public int energy
@@ -81,7 +83,7 @@ public class Units : MonoBehaviour
         {
             _energy = value;
             if (_energy > _max_Energy) _energy = _max_Energy; // Обеспечивает невозможность дальнейшего прироста энергии свыше установленного максимума
-            UI.EnergyFill = (float)(((float)_energy * 100 / (float)_max_Energy) / 100);
+            UI.Enegrybar.fillAmount = (float)(((float)_energy * 100 / (float)_max_Energy) / 100);
             UI.EnergyText.text = _energy.ToString() + "/" + _max_Energy.ToString() + " +" + _energyRest;
 
         }
@@ -97,7 +99,7 @@ public class Units : MonoBehaviour
             _armor = value;
             if (_armor > _max_Armor) _armor = _max_Armor; // Обеспечивает невозможность дальнейшего прироста брони свыше установленного максимума
             if (_armor < 0) _armor = 0; // Пока что ограничиваем броню левым диапазоном
-            UI.ArmorFill = (float)((_armor * 100 / _max_Armor) / 100);
+            UI.Armorbar.fillAmount = (float)((_armor * 100 / _max_Armor) / 100);
             UI.ArmorText.text = String.Format("{0:0.0}", _armor) + "/" + _max_Armor.ToString() + " +" + _armorRest;
         }
     }
@@ -117,7 +119,7 @@ public class Units : MonoBehaviour
             {
                 _shield = value;
             }
-            UI.ShieldFill = (float)(((float)_shield * 100 / (float)_max_Shield) / 100);
+            UI.Shieldbar.fillAmount = (float)(((float)_shield * 100 / (float)_max_Shield) / 100);
             UI.ShieldText.text = _shield.ToString() + "/" + _max_Shield.ToString();
         }
     }
@@ -188,6 +190,18 @@ public class Units : MonoBehaviour
         }
     }
 
+    public int bonuses
+    {
+        get
+        {
+            return _bonuses;
+        }
+        set
+        {
+            _bonuses = value;
+            if (_bonuses > maxBonuses) _bonuses = maxBonuses;
+        }
+    }
   
     #endregion
 
@@ -238,8 +252,6 @@ public class Units : MonoBehaviour
     {
         if (this.health <= 0)
         {
-            //Destroy(this, 2f); // Освобождаем память и удаляем юнита
-            //Destroy(UI, 2f);
             return true;
         }
         else return false;
@@ -289,31 +301,31 @@ public class Units : MonoBehaviour
         {
             case 0:
                 {
-                    actions.LightAttack(actor, enemy);
+                    actions.lightAttack.DoAttack(actor, enemy);
                     Debug.Log("Противник проводит легкую атаку");
                     break;
                 }
             case 1:
                 {
-                    actions.HeavyAttack(actor, enemy);
+                    actions.heavyAttack.DoAttack(actor, enemy);
                     Debug.Log("Противник проводит тяжелую атаку");
                     break;
                 }
             case 2:
                 {
-                    actions.PierceAttack(actor, enemy);
+                    actions.pierceAttack.DoAttack(actor, enemy);
                     Debug.Log("Противник проводит проникающую атаку");
                     break;
                 }
             case 3:
                 {
-                    actions.ShieldUp(actor);
+                    actions.shieldUp.Do(actor);
                     Debug.Log("Противник ставит щит");
                     break;
                 }
             case 4:
                 {
-                    actions.SkipTurn(actor);
+                    actions.skipTurn.Do(actor);
                     Debug.Log("Противник пропускает ход");
                     break;
                 }
