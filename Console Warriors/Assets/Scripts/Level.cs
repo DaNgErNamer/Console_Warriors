@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -99,4 +101,81 @@ public class Level : MonoBehaviour
     {
         SceneManager.LoadScene("GameEnd", LoadSceneMode.Single);
     }
+
+	[Serializable]
+	struct TestStruct
+	{
+		public int value;
+		public string description;
+		public float LightAttack_Damage { get; set; }
+	};
+	TestStruct tStruct;
+
+	private void Awake()
+	{
+		tStruct.value = 0;
+		tStruct.description = "A";
+		tStruct.LightAttack_Damage = 1.337f;
+	}
+
+
+	private void SaveTest()
+	{
+		BinaryFormatter bf = new BinaryFormatter();     //NOTE: думаю, что лучше сделать в виде XML или JSON как минимум только для отладки, но не помню как
+		FileStream file = File.Create(Application.persistentDataPath + "/savetest.dat");
+		bf.Serialize(file, tStruct);
+		//bf.Serialize(file, player);
+		file.Close();
+	}
+
+	private void LoadTest()
+	{
+		if(File.Exists(Application.persistentDataPath + "/savetest.dat"))
+		{
+			BinaryFormatter bf = new BinaryFormatter();
+			FileStream file = File.Open(Application.persistentDataPath + "/savetest.dat", FileMode.Open);
+			tStruct = (TestStruct)bf.Deserialize(file);
+			//player = (Units)bf.Deserialize(file);
+			file.Close();
+		}
+	}
+
+
+	private void FixedUpdate()
+	{
+		if (Input.GetKeyUp("["))
+		{
+			Debug.Log("Key [ pressed");
+			tStruct.value++;
+			tStruct.description += "a";
+			tStruct.LightAttack_Damage += 0.1f;
+			SaveTest();
+
+		}
+		else if (Input.GetKeyUp("]"))
+		{
+			Debug.Log("Key ] pressed");
+			LoadTest();
+			Debug.Log("value: " + tStruct.value);
+			Debug.Log("descr: " + tStruct.description);
+		}
+
+		//if (Input.GetKeyUp("["))
+		//{
+		//	Debug.Log("Key [ pressed");
+		//	//tStruct.value++;
+		//	//tStruct.description += "a";
+		//	SaveTest();
+
+		//}
+		//else if (Input.GetKeyUp("]"))
+		//{
+		//	Debug.Log("Key ] pressed");
+		//	LoadTest();
+		//	Debug.Log("value: " + tStruct.value);
+		//	Debug.Log("descr: " + tStruct.description);
+
+		//	//player.Initialization();
+		//}
+	}
 }

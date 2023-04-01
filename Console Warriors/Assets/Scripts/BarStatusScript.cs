@@ -34,11 +34,11 @@ public class BarStatusScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		//TODO: Dangername asked for removal
         Healthbar.fillAmount = HealthFill;
         Armorbar.fillAmount = ArmorFill;
         Enegrybar.fillAmount = EnergyFill;
         Shieldbar.fillAmount = ShieldFill;
-
     }
 
     internal void Initialization(Units actor)
