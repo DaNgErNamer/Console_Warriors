@@ -1476,6 +1476,7 @@ MonoBehaviour:
   FloatingPoints: {fileID: 7575713348142051179, guid: 44daa175a054c294892f98faf834a2b4, type: 3}
   animator: {fileID: 5955411522874782420}
   isInAnimation: 0
+  s_hit: {fileID: 8300000, guid: 171aca8f714ac574e8dda95d31b034d1, type: 3}
   evasion: 0
 --- !u!95 &5955411522874782420
 Animator:

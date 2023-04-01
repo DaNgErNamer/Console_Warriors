@@ -2877,6 +2877,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UI: {fileID: 8698128726852464126}
   FloatingPoints: {fileID: 7575713348142051179, guid: 44daa175a054c294892f98faf834a2b4, type: 3}
+  animator: {fileID: 0}
+  isInAnimation: 0
+  s_hit: {fileID: 8300000, guid: 464cf626990e82f4fa04e204a72c82b9, type: 3}
   evasion: 0
   LightAttackDmg_Display: {fileID: 997464586}
   HeavyAttackDmg_Display: {fileID: 423964971}

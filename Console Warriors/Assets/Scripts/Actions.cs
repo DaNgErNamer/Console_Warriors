@@ -9,6 +9,7 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
+
 internal class Actions
 {
     internal int cost = 0;
@@ -20,6 +21,8 @@ internal class Actions
     internal TryToEvade tryToEvade = new TryToEvade();
     internal SkipTurn skipTurn = new SkipTurn();
 
+	
+
 
 	internal class BaseAction// : MonoBehaviour
 	{
@@ -30,6 +33,11 @@ internal class Actions
 				attacker.isInAnimation = true;
 				attacker.animator.SetTrigger("lightAttack");
 			}
+		}
+
+		protected void PlayHitSound(Units unit)
+		{
+			SoundManager.instance.PlaySingle(unit.s_hit);
 		}
 	}
 
@@ -47,7 +55,7 @@ internal class Actions
             if (!IsTargetEvaded(defender))
             {
                 float damage = Calcultate_ShieldDamage(this.damage, defender); // рассчет урона по щиту
-
+				PlayHitSound(defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Light"); // –ассчет урона по герою с учетом доспехов
                 defender.health -= damage;
@@ -80,6 +88,7 @@ internal class Actions
             if (!IsTargetEvaded(defender))
             {
                 float damage = Calcultate_ShieldDamage(this.damage, defender);
+				PlayHitSound(defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Heavy"); // –ассчет урона по герою с учетом доспехов
                 defender.health -= damage;
@@ -110,6 +119,7 @@ internal class Actions
             if (!IsTargetEvaded(defender))
             {
                 float damage = Calcultate_ShieldDamage(this.damage, defender);
+				PlayHitSound(defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Pierce"); // –ассчет урона по герою с учетом доспехов
                 defender.health -= damage;

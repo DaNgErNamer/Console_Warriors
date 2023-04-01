@@ -42,6 +42,8 @@ public class Units : MonoBehaviour
 
 	public volatile bool isInAnimation = false;
 
+	public AudioClip s_hit;
+
     public float max_Armor
     {
         get
