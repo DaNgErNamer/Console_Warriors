@@ -8,29 +8,43 @@ using UnityEngine.SceneManagement;
 
 public class Level : MonoBehaviour
 {
-    public Level()
-    {
-    }
-    public Units player;
+	public enum TurnState { playerDecision = 0, playerAction, enemy, rest, after };
+
+	public Units player;
     public Units enemy;
     public UIHandler UI;
     public Game game;
     public AfterLevelBonusesHandler Bonuses;
-    public void Level_Start()
+	public TurnState levelState = TurnState.playerDecision;
+
+
+	public Level()
+	{
+	}
+
+
+	public void Level_Start()
     {
         Level_Core();
     }
     private void Level_Core()
     {
-        UI.turn++;
+		if(levelState == TurnState.playerDecision)
+		{
+			UI.ToggleButtons(false);
+			UI.turn++;
+			PlayerStage();
+		}
+
+        //UI.turn++;
 
         //SetLevelUI();
-
-        PlayerStage(); // Ход игрока
-        EnemyStage(); // Ход противника
-        RestStage(); // Ход восстановления
-        AfterLever(); // Когда все походили, делаем проверки
+        //PlayerStage(); // Ход игрока
+        //EnemyStage(); // Ход противника
+        //RestStage(); // Ход восстановления
+        //AfterLever(); // Когда все походили, делаем проверки
     }
+
 
     private void SetLevelUI()
     {
@@ -49,7 +63,20 @@ public class Level : MonoBehaviour
 
     }
 
-    private void PlayerStage()
+	protected IEnumerator TriggerAction(Units u)
+	{
+
+
+		while (true)
+		{
+			Debug.Log("attacking processing");
+			yield return new WaitForSeconds(2f);
+			Debug.Log("stop attack");
+		}
+	}
+
+
+	private void PlayerStage()
     {
         bool actionSucceded = false; // Отвечает за успешность действия.
         player.EffectsCheck(); // Проверка эффектов + их действия
@@ -60,10 +87,16 @@ public class Level : MonoBehaviour
         if (UI.button_ShieldUp_clicked) actionSucceded = player.actions.shieldUp.Do(player);
         if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.skipTurn.Do(player);
 
+		levelState = TurnState.playerAction;
+
         if (actionSucceded != true)
         {
             UnsuccessfulActionHappend();
         }
+		else
+		{
+			//StartCoroutine(TriggerAction(player));
+		}
     }
 
     private void UnsuccessfulActionHappend() // Обработчик, на случай, если действие не было выполнено
@@ -160,22 +193,34 @@ public class Level : MonoBehaviour
 			Debug.Log("descr: " + tStruct.description);
 		}
 
-		//if (Input.GetKeyUp("["))
-		//{
-		//	Debug.Log("Key [ pressed");
-		//	//tStruct.value++;
-		//	//tStruct.description += "a";
-		//	SaveTest();
 
-		//}
-		//else if (Input.GetKeyUp("]"))
-		//{
-		//	Debug.Log("Key ] pressed");
-		//	LoadTest();
-		//	Debug.Log("value: " + tStruct.value);
-		//	Debug.Log("descr: " + tStruct.description);
-
-		//	//player.Initialization();
-		//}
+		if(levelState == TurnState.playerAction)
+		{
+			if(!player.isInAnimation)
+			{
+				EnemyStage();
+				levelState = TurnState.enemy;
+			}
+		}
+		else if(levelState == TurnState.enemy)
+		{
+			//NOTE: проверяем анимацию врага как выше
+			if (!enemy.isInAnimation)
+			{
+				RestStage();
+				levelState = TurnState.rest;
+			}
+		}
+		else if(levelState == TurnState.rest)
+		{
+			//NOTE: проверяем анимации отдыха
+			AfterLever();
+			levelState = TurnState.after;
+		}
+		else if(levelState == TurnState.after)
+		{
+			UI.ToggleButtons(true);
+			levelState = TurnState.playerDecision;
+		}
 	}
 }

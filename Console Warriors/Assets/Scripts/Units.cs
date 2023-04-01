@@ -21,6 +21,7 @@ public class Units : MonoBehaviour
     internal Actions actions = new Actions();
     public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
     internal List<Effects> effectsList = new List<Effects>();
+	public Animator animator;
 
     #region stats
     internal string unit_name;
@@ -38,6 +39,8 @@ public class Units : MonoBehaviour
     protected int _max_Shield = 25;
     protected int _bonuses = 3;
     protected int maxBonuses = 7;
+
+	public volatile bool isInAnimation = false;
 
     public float max_Armor
     {
@@ -241,12 +244,16 @@ public class Units : MonoBehaviour
         CreateFloatingPoints(this, "Evaded", Color.white);
     }
 
+	public void AnimationEnded()
+	{
+		isInAnimation = false;
+	}
     #endregion
 
     #region devActions
     void Start()
     {
-        //this.UI.Initialization(this);
+		//this.UI.Initialization(this);
     }
     public bool IsDead()
     {
@@ -336,6 +343,7 @@ public class Units : MonoBehaviour
         }
     }
     #endregion
+
 }
 [Serializable]
 public partial class Player : Units 
