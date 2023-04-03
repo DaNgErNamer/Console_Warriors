@@ -125,5 +125,14 @@ public class UIHandler : MonoBehaviour
     }
 
 
+	public void ToggleButtons(bool value)
+	{
+		button_LightAttack.gameObject.SetActive(value);
+		button_PierceAttack.gameObject.SetActive(value);
+		button_HeavyAttack.gameObject.SetActive(value);
+		button_ShieldUp.gameObject.SetActive(value);
+		button_SkipTurn.gameObject.SetActive(value);
+		button_Evade.gameObject.SetActive(value);
+	}
 }
 

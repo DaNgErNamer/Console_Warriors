@@ -9,6 +9,7 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
+
 internal class Actions
 {
     internal int cost = 0;
@@ -19,19 +20,42 @@ internal class Actions
     internal ShieldUp shieldUp = new ShieldUp();
     internal TryToEvade tryToEvade = new TryToEvade();
     internal SkipTurn skipTurn = new SkipTurn();
-    internal class LightAttack
+
+	
+
+
+	internal class BaseAction// : MonoBehaviour
+	{
+		protected void BaseAttack(Units attacker, Units defender)
+		{
+			if (attacker.animator != null)
+			{
+				attacker.isInAnimation = true;
+				attacker.animator.SetTrigger("lightAttack");
+			}
+		}
+
+		protected void PlayHitSound(Units unit)
+		{
+			SoundManager.instance.PlaySingle(unit.s_hit);
+		}
+	}
+
+    internal class LightAttack : BaseAction
     {
         internal int cost = 10;
         internal int damage = 25;
         internal bool DoAttack(Units attacker, Units defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
+
+			BaseAttack(attacker, defender);	//NOTE: сделано чтобы быстро сделать анимацию атаки для всех типов
             attacker.energy -= cost;
 
             if (!IsTargetEvaded(defender))
             {
                 float damage = Calcultate_ShieldDamage(this.damage, defender); // рассчет урона по щиту
-
+				PlayHitSound(defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Light"); // Рассчет урона по герою с учетом доспехов
                 defender.health -= damage;
@@ -50,18 +74,21 @@ internal class Actions
             }
         }
     }
-    internal class HeavyAttack
+    internal class HeavyAttack : BaseAction
     {
         internal int cost = 15;
         internal int damage = 20;
         internal bool DoAttack(Units attacker, Units defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
-            attacker.energy -= cost;
+
+			BaseAttack(attacker, defender); //NOTE: сделано чтобы быстро сделать анимацию атаки для всех типов
+			attacker.energy -= cost;
 
             if (!IsTargetEvaded(defender))
             {
                 float damage = Calcultate_ShieldDamage(this.damage, defender);
+				PlayHitSound(defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Heavy"); // Рассчет урона по герою с учетом доспехов
                 defender.health -= damage;
@@ -78,18 +105,21 @@ internal class Actions
             }
         }
     }
-    internal class PierceAttack
-    {
+    internal class PierceAttack : BaseAction
+	{
         internal int cost = 15;
         internal int damage = 20;
         internal bool DoAttack(Units attacker, Units defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
-            attacker.energy -= cost;
+
+			BaseAttack(attacker, defender); //NOTE: сделано чтобы быстро сделать анимацию атаки для всех типов
+			attacker.energy -= cost;
 
             if (!IsTargetEvaded(defender))
             {
                 float damage = Calcultate_ShieldDamage(this.damage, defender);
+				PlayHitSound(defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Pierce"); // Рассчет урона по герою с учетом доспехов
                 defender.health -= damage;
@@ -106,8 +136,8 @@ internal class Actions
             }
         }
     }
-    internal class ShieldUp
-    {
+    internal class ShieldUp : BaseAction
+	{
         internal int cost = 20;
         internal bool isUsed = false;
         internal bool Do(Units actor)
@@ -119,8 +149,8 @@ internal class Actions
             return true;
         }
     }
-    internal class TryToEvade
-    {
+    internal class TryToEvade : BaseAction
+	{
         internal int cost = 25;
         internal bool Do(Units actor)
         {
@@ -130,8 +160,8 @@ internal class Actions
             return true;
         }
     }
-    internal class SkipTurn
-    {
+    internal class SkipTurn : BaseAction
+	{
         internal int cost = 0;
         internal bool Do(Units actor)
         {

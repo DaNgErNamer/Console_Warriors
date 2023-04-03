@@ -1,34 +1,50 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Level : MonoBehaviour
 {
-    public Level()
-    {
-    }
-    public Units player;
+	public enum TurnState { playerDecision = 0, playerAction, enemy, rest, after };
+
+	public Units player;
     public Units enemy;
     public UIHandler UI;
     public Game game;
     public AfterLevelBonusesHandler Bonuses;
-    public void Level_Start()
+	public TurnState levelState = TurnState.playerDecision;
+
+
+	public Level()
+	{
+	}
+
+
+	public void Level_Start()
     {
         Level_Core();
     }
     private void Level_Core()
     {
-        UI.turn++;
+		if(levelState == TurnState.playerDecision)
+		{
+			UI.ToggleButtons(false);
+			UI.turn++;
+			PlayerStage();
+		}
+
+        //UI.turn++;
 
         //SetLevelUI();
-
-        PlayerStage(); // Ход игрока
-        EnemyStage(); // Ход противника
-        RestStage(); // Ход восстановления
-        AfterLever(); // Когда все походили, делаем проверки
+        //PlayerStage(); // Ход игрока
+        //EnemyStage(); // Ход противника
+        //RestStage(); // Ход восстановления
+        //AfterLever(); // Когда все походили, делаем проверки
     }
+
 
     private void SetLevelUI()
     {
@@ -47,7 +63,20 @@ public class Level : MonoBehaviour
 
     }
 
-    private void PlayerStage()
+	protected IEnumerator TriggerAction(Units u)
+	{
+
+
+		while (true)
+		{
+			Debug.Log("attacking processing");
+			yield return new WaitForSeconds(2f);
+			Debug.Log("stop attack");
+		}
+	}
+
+
+	private void PlayerStage()
     {
         bool actionSucceded = false; // Отвечает за успешность действия.
         player.EffectsCheck(); // Проверка эффектов + их действия
@@ -58,10 +87,16 @@ public class Level : MonoBehaviour
         if (UI.button_ShieldUp_clicked) actionSucceded = player.actions.shieldUp.Do(player);
         if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.skipTurn.Do(player);
 
+		levelState = TurnState.playerAction;
+
         if (actionSucceded != true)
         {
             UnsuccessfulActionHappend();
         }
+		else
+		{
+			//StartCoroutine(TriggerAction(player));
+		}
     }
 
     private void UnsuccessfulActionHappend() // Обработчик, на случай, если действие не было выполнено
@@ -99,4 +134,93 @@ public class Level : MonoBehaviour
     {
         SceneManager.LoadScene("GameEnd", LoadSceneMode.Single);
     }
+
+	[Serializable]
+	struct TestStruct
+	{
+		public int value;
+		public string description;
+		public float LightAttack_Damage { get; set; }
+	};
+	TestStruct tStruct;
+
+	private void Awake()
+	{
+		tStruct.value = 0;
+		tStruct.description = "A";
+		tStruct.LightAttack_Damage = 1.337f;
+	}
+
+
+	private void SaveTest()
+	{
+		BinaryFormatter bf = new BinaryFormatter();     //NOTE: думаю, что лучше сделать в виде XML или JSON как минимум только для отладки, но не помню как
+		FileStream file = File.Create(Application.persistentDataPath + "/savetest.dat");
+		bf.Serialize(file, tStruct);
+		//bf.Serialize(file, player);
+		file.Close();
+	}
+
+	private void LoadTest()
+	{
+		if(File.Exists(Application.persistentDataPath + "/savetest.dat"))
+		{
+			BinaryFormatter bf = new BinaryFormatter();
+			FileStream file = File.Open(Application.persistentDataPath + "/savetest.dat", FileMode.Open);
+			tStruct = (TestStruct)bf.Deserialize(file);
+			//player = (Units)bf.Deserialize(file);
+			file.Close();
+		}
+	}
+
+
+	private void FixedUpdate()
+	{
+		if (Input.GetKeyUp("["))
+		{
+			Debug.Log("Key [ pressed");
+			tStruct.value++;
+			tStruct.description += "a";
+			tStruct.LightAttack_Damage += 0.1f;
+			SaveTest();
+
+		}
+		else if (Input.GetKeyUp("]"))
+		{
+			Debug.Log("Key ] pressed");
+			LoadTest();
+			Debug.Log("value: " + tStruct.value);
+			Debug.Log("descr: " + tStruct.description);
+		}
+
+
+		if(levelState == TurnState.playerAction)
+		{
+			if(!player.isInAnimation)
+			{
+				EnemyStage();
+				levelState = TurnState.enemy;
+			}
+		}
+		else if(levelState == TurnState.enemy)
+		{
+			//NOTE: проверяем анимацию врага как выше
+			if (!enemy.isInAnimation)
+			{
+				RestStage();
+				levelState = TurnState.rest;
+			}
+		}
+		else if(levelState == TurnState.rest)
+		{
+			//NOTE: проверяем анимации отдыха
+			AfterLever();
+			levelState = TurnState.after;
+		}
+		else if(levelState == TurnState.after)
+		{
+			UI.ToggleButtons(true);
+			levelState = TurnState.playerDecision;
+		}
+	}
 }
