@@ -33,9 +33,9 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
         UiHandler.turn = 1;
     } 
 
-    private Units PickEnemy()
+    private Unit PickEnemy()
     {
-        Units unit = Enemy.GetComponentInChildren<Units>();
+        Unit unit = Enemy.GetComponentInChildren<Unit>();
         return unit;
     }
 

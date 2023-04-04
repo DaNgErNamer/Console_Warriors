@@ -41,7 +41,7 @@ public class BarStatusScript : MonoBehaviour
 
     }
 
-    internal void Initialization(Units actor)
+    internal void Initialization(Unit actor)
     {
         
     }

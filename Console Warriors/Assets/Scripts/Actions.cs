@@ -26,7 +26,7 @@ internal class Actions
 
 	internal class BaseAction// : MonoBehaviour
 	{
-		protected void BaseAttack(Units attacker, Units defender)
+		protected void BaseAttack(Unit attacker, Unit defender)
 		{
 			if (attacker.animator != null)
 			{
@@ -35,7 +35,7 @@ internal class Actions
 			}
 		}
 
-		protected void PlayHitSound(Units unit)
+		protected void PlayHitSound(Unit unit)
 		{
 			SoundManager.instance.PlaySingle(unit.s_hit);
 		}
@@ -45,7 +45,7 @@ internal class Actions
     {
         internal int cost = 10;
         internal int damage = 25;
-        internal bool DoAttack(Units attacker, Units defender)
+        internal bool DoAttack(Unit attacker, Unit defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
 
@@ -78,7 +78,7 @@ internal class Actions
     {
         internal int cost = 15;
         internal int damage = 20;
-        internal bool DoAttack(Units attacker, Units defender)
+        internal bool DoAttack(Unit attacker, Unit defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
 
@@ -109,7 +109,7 @@ internal class Actions
 	{
         internal int cost = 15;
         internal int damage = 20;
-        internal bool DoAttack(Units attacker, Units defender)
+        internal bool DoAttack(Unit attacker, Unit defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
 
@@ -140,7 +140,7 @@ internal class Actions
 	{
         internal int cost = 20;
         internal bool isUsed = false;
-        internal bool Do(Units actor)
+        internal bool Do(Unit actor)
         {
             if (!CheckEnergy(actor, cost)) return false;
             actor.energy -= cost;
@@ -152,7 +152,7 @@ internal class Actions
     internal class TryToEvade : BaseAction
 	{
         internal int cost = 25;
-        internal bool Do(Units actor)
+        internal bool Do(Unit actor)
         {
             if (!CheckEnergy(actor, cost)) return false;
             actor.energy -= cost;
@@ -163,7 +163,7 @@ internal class Actions
     internal class SkipTurn : BaseAction
 	{
         internal int cost = 0;
-        internal bool Do(Units actor)
+        internal bool Do(Unit actor)
         {
             if (!CheckEnergy(actor, cost)) return false;
             actor.energy -= cost;
@@ -172,7 +172,7 @@ internal class Actions
     }
 
     #region OldActions
-    //public bool LightAttack(Units attacker, Units defender)
+    //public bool LightAttack(Unit attacker, Unit defender)
     //{
     //    if(!CheckEnergy(attacker, lightAttack_cost)) return false;
     //    attacker.energy -= lightAttack_cost;
@@ -198,7 +198,7 @@ internal class Actions
     //        return true;
     //    }
     //}
-    //public bool PierceAttack(Units attacker, Units defender)
+    //public bool PierceAttack(Unit attacker, Unit defender)
     //{
     //    if (!CheckEnergy(attacker, pierceAttack_cost)) return false;
     //    attacker.energy -= pierceAttack_cost;
@@ -221,7 +221,7 @@ internal class Actions
     //        return true;
     //    }
     //}
-    //public bool HeavyAttack(Units attacker, Units defender)
+    //public bool HeavyAttack(Unit attacker, Unit defender)
     //{
     //    if (!CheckEnergy(attacker, heavyAttack_cost)) return false;
     //    attacker.energy -= heavyAttack_cost;
@@ -244,7 +244,7 @@ internal class Actions
     //        return true;
     //    }
     //}
-    //public bool ShieldUp(Units actor)
+    //public bool ShieldUp(Unit actor)
     //{
     //    if (!CheckEnergy(actor, shieldUp_cost)) return false;
 
@@ -255,7 +255,7 @@ internal class Actions
     //    Debug.Log(actor + " Поднял щит");
     //    return true;
     //}
-    //public bool SkipTurn(Units actor)
+    //public bool SkipTurn(Unit actor)
     //{
     //    if (!CheckEnergy(actor, skipTurn_cost)) return false;
 
@@ -265,13 +265,13 @@ internal class Actions
     //    return true;
     //}
 
-    //public bool TryToEvade(Units actor)
+    //public bool TryToEvade(Unit actor)
     //{
     //    actor.effectsList.Add(new Effects.EvasionBoost(actor,40,4));
     //    return true;
     //}
     #endregion
-    static float Calculate_DamageThroughtArmor(Units defender, float Damage, string attack_type) // Старый скрипт рассчета урона через броню
+    static float Calculate_DamageThroughtArmor(Unit defender, float Damage, string attack_type) // Старый скрипт рассчета урона через броню
     {
         float pierce_Damage, origin_damage;
         pierce_Damage = 0;
@@ -290,7 +290,7 @@ internal class Actions
         }
         return pierce_Damage;
     }
-    static float Calculate_ArmorDestruction(Units defender, float Damage, string attack_type) // Старый скрипт рассчета урона по броне
+    static float Calculate_ArmorDestruction(Unit defender, float Damage, string attack_type) // Старый скрипт рассчета урона по броне
     {
         float Armor = 0;
 
@@ -309,7 +309,7 @@ internal class Actions
 
         return Armor;
     }
-    static float Calcultate_ShieldDamage(float damage, Units defender) // Рассчет урона по щиту
+    static float Calcultate_ShieldDamage(float damage, Unit defender) // Рассчет урона по щиту
     {
         int damage_int = Convert.ToInt32(damage);
         int damage_throgh_shield = 0;
@@ -336,13 +336,13 @@ internal class Actions
         
     }
 
-    static bool IsTargetEvaded(Units enemy)
+    static bool IsTargetEvaded(Unit enemy)
     {
         int number = UnityEngine.Random.Range(0, 101);
         if (number > enemy.evasion) return false;
         else return true;
     }
-    static bool CheckEnergy(Units actor, int cost)
+    static bool CheckEnergy(Unit actor, int cost)
     {
         if (actor.energy - cost > 0) return true;
         else return false;

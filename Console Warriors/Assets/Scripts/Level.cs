@@ -10,8 +10,8 @@ public class Level : MonoBehaviour
 {
 	public enum TurnState { playerDecision = 0, playerAction, enemy, rest, after };
 
-	public Units player;
-    public Units enemy;
+	public Unit player;
+    public Unit enemy;
     public UIHandler UI;
     public Game game;
     public AfterLevelBonusesHandler Bonuses;
@@ -63,7 +63,7 @@ public class Level : MonoBehaviour
 
     }
 
-	protected IEnumerator TriggerAction(Units u)
+	protected IEnumerator TriggerAction(Unit u)
 	{
 
 
@@ -168,7 +168,7 @@ public class Level : MonoBehaviour
 			BinaryFormatter bf = new BinaryFormatter();
 			FileStream file = File.Open(Application.persistentDataPath + "/savetest.dat", FileMode.Open);
 			tStruct = (TestStruct)bf.Deserialize(file);
-			//player = (Units)bf.Deserialize(file);
+			//player = (Unit)bf.Deserialize(file);
 			file.Close();
 		}
 	}

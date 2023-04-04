@@ -10,7 +10,7 @@ public class Effects
 {
     internal int value;
     internal int turnsLeft;
-    internal Units actor;
+    internal Unit actor;
     /// <summary>
     /// Применяется, когда эффект что-то делает каждый ход
     /// </summary>
@@ -21,7 +21,7 @@ public class Effects
     // Ниже сами эффекты - они являются производными от базового класса Effects
     public class EvasionBoost : Effects
     {
-        public EvasionBoost(Units actor, int evasionValue, int turns)
+        public EvasionBoost(Unit actor, int evasionValue, int turns)
         {
             this.value = evasionValue;
             this.turnsLeft = turns;

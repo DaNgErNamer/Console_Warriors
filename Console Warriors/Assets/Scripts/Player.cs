@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public partial class Player : Units 
+public partial class Player : Unit 
 {
     public TMP_Text LightAttackDmg_Display;
     public TMP_Text HeavyAttackDmg_Display;

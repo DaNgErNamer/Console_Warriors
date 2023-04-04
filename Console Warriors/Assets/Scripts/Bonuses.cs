@@ -14,7 +14,7 @@ public class Bonuses
 {
     internal int value;
     internal string description;
-    internal virtual void ApplyBonus(Units actor) { }
+    internal virtual void ApplyBonus(Unit actor) { }
     internal class Tier_1 : Bonuses
     {
         internal List<Bonuses> bonusList = new List<Bonuses>();
@@ -55,7 +55,7 @@ public class Bonuses
             description = "Increasing max health by " + value.ToString();  
             
         }
-        internal override void ApplyBonus(Units actor)
+        internal override void ApplyBonus(Unit actor)
         {
             actor.max_Health += value;
         }
@@ -69,7 +69,7 @@ public class Bonuses
             description = "Increasing current health by " + value.ToString();
             
         }
-        internal override void ApplyBonus(Units actor)
+        internal override void ApplyBonus(Unit actor)
         {
             actor.health += value;
         }
@@ -82,7 +82,7 @@ public class Bonuses
             value = 30;
             description = "Increasing armor by " + value.ToString();
         }
-        internal override void ApplyBonus(Units actor)
+        internal override void ApplyBonus(Unit actor)
         {
             actor.armor += value;
         }
@@ -95,7 +95,7 @@ public class Bonuses
             value = 10;
             description = "Increasing evasion by " + value.ToString();
         }
-        internal override void ApplyBonus(Units actor)
+        internal override void ApplyBonus(Unit actor)
         {
             actor.evasion += value;
         }
@@ -108,7 +108,7 @@ public class Bonuses
             value = 3;
             description = "Increasing health regeneration by " + value.ToString();
         }
-        internal override void ApplyBonus(Units actor)
+        internal override void ApplyBonus(Unit actor)
         {
             actor.healthRest += value;
         }
@@ -122,7 +122,7 @@ public class Bonuses
             value = 5;
             description = "Increasing energy regeneration by " + value.ToString();
         }
-        internal override void ApplyBonus(Units actor)
+        internal override void ApplyBonus(Unit actor)
         {
             actor.energyRest += value;
         }
@@ -138,7 +138,7 @@ public class Bonuses
             value = 30;
             description = "Increasing max health by " + value.ToString();
         }
-        internal override void ApplyBonus(Units actor)
+        internal override void ApplyBonus(Unit actor)
         {
             actor.max_Health += value;
         }
@@ -152,7 +152,7 @@ public class Bonuses
             description = "Fully restores current health";
 
         }
-        internal override void ApplyBonus(Units actor)
+        internal override void ApplyBonus(Unit actor)
         {
             value = Convert.ToInt32(actor.max_Health);
             actor.health = value;
@@ -168,7 +168,7 @@ public class Bonuses
             value = 80;
             description = "Get " + value.ToString() + " armor";
         }
-        internal override void ApplyBonus(Units actor)
+        internal override void ApplyBonus(Unit actor)
         {
             actor.armor = value;
         }

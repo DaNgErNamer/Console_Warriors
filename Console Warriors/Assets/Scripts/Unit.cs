@@ -11,11 +11,11 @@ using UnityEngine;
 using TMPro;
 
 [Serializable]
-public class Units : MonoBehaviour
+public class Unit : MonoBehaviour
 {
     // Поля начинающиеся с нижнего подчеркивания _* - НЕ должны изменятся где-либо и как-либо кроме этого и производного классов.
     // Для изменения значений использовать открытые свойства! 
-    public Units(){} // Всё что есть у юнита, в том числе игрока
+    public Unit(){} // Всё что есть у юнита, в том числе игрока
 
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
     internal Actions actions = new Actions();
@@ -266,7 +266,7 @@ public class Units : MonoBehaviour
         else return false;
     }
 
-    public void CreateFloatingPoints (Units unit, float damage, string damageType)
+    public void CreateFloatingPoints (Unit unit, float damage, string damageType)
     {
         GameObject points = Instantiate(FloatingPoints, transform.position, Quaternion.identity) as GameObject;
         points.transform.GetChild(0).GetComponent<TMP_Text>().text = String.Format("{0:0.0}", damage);
@@ -294,7 +294,7 @@ public class Units : MonoBehaviour
         }
     }
 
-    public void CreateFloatingPoints(Units unit, string text, Color color)
+    public void CreateFloatingPoints(Unit unit, string text, Color color)
     {
         GameObject points = Instantiate(FloatingPoints, transform.position, Quaternion.identity) as GameObject;
         points.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
@@ -303,7 +303,7 @@ public class Units : MonoBehaviour
     #endregion
 
     #region AI
-    public virtual void AI_Work(Units actor, Units enemy) // Базовый ИИ для юнитов, каждый потом будет перезаписывать под себя.
+    public virtual void AI_Work(Unit actor, Unit enemy) // Базовый ИИ для юнитов, каждый потом будет перезаписывать под себя.
     {
         int random = UnityEngine.Random.Range(0, 5);
         switch (random)
@@ -348,10 +348,10 @@ public class Units : MonoBehaviour
 
 }
 [Serializable]
-public partial class Player : Units 
+public partial class Player : Unit 
 { }
 
-public partial class Enemy : Units
+public partial class Enemy : Unit
 { }
 
 
