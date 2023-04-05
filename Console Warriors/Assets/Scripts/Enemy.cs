@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Enemy : Unit
+public partial class Enemy : Actor
 {
-    public Enemy() // Класс для последующего наследования для юнитов-противников.
-    {
+    public Enemy() { } // Класс для последующего наследования для юнитов-противников.
 
-    }
 
     private void Start()
     {
-        unit_name = "Base_Enemy";
+        unit = new Unit(UI, this);
+        unit.unit_name = "Base_Enemy";
     }
 }

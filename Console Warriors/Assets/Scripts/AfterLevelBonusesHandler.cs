@@ -9,7 +9,7 @@ public class AfterLevelBonusesHandler : MonoBehaviour
     internal Bonuses bonuses;
     internal List<Bonuses> bonusList = new List<Bonuses>();
     internal int stage;
-    internal Unit actor;
+    internal Actor actor;
 
     internal float T1_chance;
     internal float T2_chance;
@@ -33,7 +33,7 @@ public class AfterLevelBonusesHandler : MonoBehaviour
 
     public GameObject UI;
 
-    internal void PrepareBonuses(int stage, Unit actor)
+    internal void PrepareBonuses(int stage, Actor actor)
     {
         bonusList.Clear();
         this.stage = stage;

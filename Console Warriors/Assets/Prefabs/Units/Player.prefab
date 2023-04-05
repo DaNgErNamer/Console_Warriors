@@ -2869,7 +2869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3349383809308366293}
-  - component: {fileID: 5497290353145490571}
+  - component: {fileID: 7332187851078351636}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2895,7 +2895,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5497290353145490571
+--- !u!114 &7332187851078351636
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2907,12 +2907,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce69ea032d10ef4da84b28581756c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unit:
+    isInAnimation: 0
+    evasion: 0
   UI: {fileID: 8698128726852464126}
   FloatingPoints: {fileID: 7575713348142051179, guid: 44daa175a054c294892f98faf834a2b4, type: 3}
-  animator: {fileID: 0}
-  isInAnimation: 0
   s_hit: {fileID: 8300000, guid: 464cf626990e82f4fa04e204a72c82b9, type: 3}
-  evasion: 0
+  animator: {fileID: 0}
   LightAttackDmg_Display: {fileID: 997464586}
   HeavyAttackDmg_Display: {fileID: 423964971}
   PierceAttackDmg_Display: {fileID: 799646665}

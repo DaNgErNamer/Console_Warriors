@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class Rogue : Enemy
 {
-    public Rogue()
-    {
-        unit_name = "Rogue";
-
-    }
+    public Rogue() { }
     void Start()
     {
-        max_Health = 100;
-        armor = 0;
-        evasion = 30;
+        unit = new Unit(UI, this);
+        unit.unit_name = "Rogue";
+        unit.max_Health = 100;
+        unit.armor = 0;
+        unit.evasion = 30;
         this.Initialization();
+
     }
 
 }

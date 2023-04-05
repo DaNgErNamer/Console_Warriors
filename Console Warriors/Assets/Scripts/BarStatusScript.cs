@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
+[Serializable]
 public class BarStatusScript : MonoBehaviour
 {
     public Image Healthbar;

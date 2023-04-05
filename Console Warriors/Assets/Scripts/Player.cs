@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public partial class Player : Unit 
+
+public partial class Player : Actor 
 {
     public TMP_Text LightAttackDmg_Display;
     public TMP_Text HeavyAttackDmg_Display;
@@ -17,18 +18,15 @@ public partial class Player : Unit
     public TMP_Text ShieldUpCost_Display;
     public TMP_Text EvasionCost_Display;
 
-    public Player()
-    {
-
-    }
+    public Player() { }
     public override void Initialization()
     {
         base.Initialization();
         LightAttackDmg_Display.text = this.actions.lightAttack.damage.ToString() + " DMG";
         HeavyAttackDmg_Display.text = this.actions.heavyAttack.damage.ToString() + " DMG";
         PierceAttackDmg_Display.text = this.actions.pierceAttack.damage.ToString() + " DMG";
-        ShieldUpAmount_Display.text = this.max_Shield.ToString() + " SHLD";
-        EvasionAmount_Display.text =  "+30 EV";
+        ShieldUpAmount_Display.text = this.unit.max_Shield.ToString() + " SHLD";
+        EvasionAmount_Display.text = "+30 EV";
 
 
         LightAttackCost_Display.text = "-" + this.actions.lightAttack.cost.ToString() + " ENG";
@@ -39,6 +37,8 @@ public partial class Player : Unit
     }
     private void Start()
     {
+        unit = new Unit(UI, this);
         this.Initialization();
     }
+
 }

@@ -26,16 +26,16 @@ internal class Actions
 
 	internal class BaseAction// : MonoBehaviour
 	{
-		protected void BaseAttack(Unit attacker, Unit defender)
+		protected void BaseAttack(Actor attacker, Actor defender)
 		{
 			if (attacker.animator != null)
 			{
-				attacker.isInAnimation = true;
+				attacker.unit.isInAnimation = true;
 				attacker.animator.SetTrigger("lightAttack");
 			}
 		}
 
-		protected void PlayHitSound(Unit unit)
+		protected void PlayHitSound(Actor unit)
 		{
 			SoundManager.instance.PlaySingle(unit.s_hit);
 		}
@@ -45,12 +45,12 @@ internal class Actions
     {
         internal int cost = 10;
         internal int damage = 25;
-        internal bool DoAttack(Unit attacker, Unit defender)
+        internal bool DoAttack(Actor attacker, Actor defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
 
 			BaseAttack(attacker, defender);	//NOTE: сделано чтобы быстро сделать анимацию атаки для всех типов
-            attacker.energy -= cost;
+            attacker.unit.energy -= cost;
 
             if (!IsTargetEvaded(defender))
             {
@@ -58,18 +58,18 @@ internal class Actions
 				PlayHitSound(defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Light"); // Рассчет урона по герою с учетом доспехов
-                defender.health -= damage;
+                defender.unit.health -= damage;
                 defender.CreateFloatingPoints(defender, damage, "health");
 
                 damage = Calculate_ArmorDestruction(defender, damage, "Light"); // Рассчет урона по доспехам
-                if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-                defender.armor -= damage;
+                if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
+                defender.unit.armor -= damage;
 
                 return true;
             }
             else
             {
-                defender.Evaded_Display();
+                defender.unit.Evaded_Display();
                 return true;
             }
         }
@@ -78,12 +78,12 @@ internal class Actions
     {
         internal int cost = 15;
         internal int damage = 20;
-        internal bool DoAttack(Unit attacker, Unit defender)
+        internal bool DoAttack(Actor attacker, Actor defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
 
 			BaseAttack(attacker, defender); //NOTE: сделано чтобы быстро сделать анимацию атаки для всех типов
-			attacker.energy -= cost;
+			attacker.unit.energy -= cost;
 
             if (!IsTargetEvaded(defender))
             {
@@ -91,16 +91,16 @@ internal class Actions
 				PlayHitSound(defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Heavy"); // Рассчет урона по герою с учетом доспехов
-                defender.health -= damage;
+                defender.unit.health -= damage;
                 defender.CreateFloatingPoints(defender, damage, "health");
 
                 damage = Calculate_ArmorDestruction(defender, damage, "Heavy"); // Рассчет урона по доспехам
-                if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-                defender.armor -= damage;
+                if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
+                defender.unit.armor -= damage;
                 return true;
             }
             {
-                defender.Evaded_Display();
+                defender.unit.Evaded_Display();
                 return true;
             }
         }
@@ -109,12 +109,12 @@ internal class Actions
 	{
         internal int cost = 15;
         internal int damage = 20;
-        internal bool DoAttack(Unit attacker, Unit defender)
+        internal bool DoAttack(Actor attacker, Actor defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
 
 			BaseAttack(attacker, defender); //NOTE: сделано чтобы быстро сделать анимацию атаки для всех типов
-			attacker.energy -= cost;
+			attacker.unit.energy -= cost;
 
             if (!IsTargetEvaded(defender))
             {
@@ -122,16 +122,16 @@ internal class Actions
 				PlayHitSound(defender);
 
                 damage = Calculate_DamageThroughtArmor(defender, damage, "Pierce"); // Рассчет урона по герою с учетом доспехов
-                defender.health -= damage;
+                defender.unit.health -= damage;
                 defender.CreateFloatingPoints(defender, damage, "health");
 
                 damage = Calculate_ArmorDestruction(defender, damage, "Pierce"); // Рассчет урона по доспехам
-                if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-                defender.armor -= damage;
+                if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
+                defender.unit.armor -= damage;
                 return true;
             }
             {
-                defender.Evaded_Display();
+                defender.unit.Evaded_Display();
                 return true;
             }
         }
@@ -140,11 +140,11 @@ internal class Actions
 	{
         internal int cost = 20;
         internal bool isUsed = false;
-        internal bool Do(Unit actor)
+        internal bool Do(Actor actor)
         {
             if (!CheckEnergy(actor, cost)) return false;
-            actor.energy -= cost;
-            actor.shield = actor.max_Shield;
+            actor.unit.energy -= cost;
+            actor.unit.shield = actor.unit.max_Shield;
             Debug.Log(actor + " Поднял щит");
             return true;
         }
@@ -152,180 +152,81 @@ internal class Actions
     internal class TryToEvade : BaseAction
 	{
         internal int cost = 25;
-        internal bool Do(Unit actor)
+        internal bool Do(Actor actor)
         {
             if (!CheckEnergy(actor, cost)) return false;
-            actor.energy -= cost;
-            actor.effectsList.Add(new Effects.EvasionBoost(actor, 40, 4));
+            actor.unit.energy -= cost;
+            actor.unit.effectsList.Add(new Effects.EvasionBoost(actor, 40, 4));
             return true;
         }
     }
     internal class SkipTurn : BaseAction
 	{
         internal int cost = 0;
-        internal bool Do(Unit actor)
+        internal bool Do(Actor actor)
         {
             if (!CheckEnergy(actor, cost)) return false;
-            actor.energy -= cost;
+            actor.unit.energy -= cost;
             return true;
         }
     }
 
-    #region OldActions
-    //public bool LightAttack(Unit attacker, Unit defender)
-    //{
-    //    if(!CheckEnergy(attacker, lightAttack_cost)) return false;
-    //    attacker.energy -= lightAttack_cost;
-
-    //    if (!IsTargetEvaded(defender))
-    //    {
-    //        float damage = Calcultate_ShieldDamage(attacker.LightAttack_Damage, defender); // рассчет урона по щиту
-
-
-    //        damage = Calculate_DamageThroughtArmor(defender, damage, "Light"); // Рассчет урона по герою с учетом доспехов
-    //        defender.health -= damage;
-    //        defender.CreateFloatingPoints(defender, damage, "health");
-
-    //        damage = Calculate_ArmorDestruction(defender, damage, "Light"); // Рассчет урона по доспехам
-    //        if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-    //        defender.armor -= damage;
-
-    //        return true;
-    //    }
-    //    else
-    //    {
-    //        defender.Evaded_Display();
-    //        return true;
-    //    }
-    //}
-    //public bool PierceAttack(Unit attacker, Unit defender)
-    //{
-    //    if (!CheckEnergy(attacker, pierceAttack_cost)) return false;
-    //    attacker.energy -= pierceAttack_cost;
-
-    //    if (!IsTargetEvaded(defender))
-    //    {
-    //        float damage = Calcultate_ShieldDamage(attacker.PirceAttack_Damage, defender);
-
-    //        damage = Calculate_DamageThroughtArmor(defender, damage, "Pierce"); // Рассчет урона по герою с учетом доспехов
-    //        defender.health -= damage;
-    //        defender.CreateFloatingPoints(defender, damage, "health");
-
-    //        damage = Calculate_ArmorDestruction(defender, damage, "Pierce"); // Рассчет урона по доспехам
-    //        if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-    //        defender.armor -= damage;
-    //        return true;
-    //    }
-    //    {
-    //        defender.Evaded_Display();
-    //        return true;
-    //    }
-    //}
-    //public bool HeavyAttack(Unit attacker, Unit defender)
-    //{
-    //    if (!CheckEnergy(attacker, heavyAttack_cost)) return false;
-    //    attacker.energy -= heavyAttack_cost;
-
-    //    if (!IsTargetEvaded(defender))
-    //    {
-    //        float damage = Calcultate_ShieldDamage(attacker.HeavyAttack_Damage, defender);
-
-    //        damage = Calculate_DamageThroughtArmor(defender, damage, "Heavy"); // Рассчет урона по герою с учетом доспехов
-    //        defender.health -= damage;
-    //        defender.CreateFloatingPoints(defender, damage, "health");
-
-    //        damage = Calculate_ArmorDestruction(defender, damage, "Heavy"); // Рассчет урона по доспехам
-    //        if (defender.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-    //        defender.armor -= damage;
-    //        return true;
-    //    }
-    //    {
-    //        defender.Evaded_Display();
-    //        return true;
-    //    }
-    //}
-    //public bool ShieldUp(Unit actor)
-    //{
-    //    if (!CheckEnergy(actor, shieldUp_cost)) return false;
-
-    //    actor.energy -= shieldUp_cost;
-
-    //    actor.shield = actor.max_Shield;
-
-    //    Debug.Log(actor + " Поднял щит");
-    //    return true;
-    //}
-    //public bool SkipTurn(Unit actor)
-    //{
-    //    if (!CheckEnergy(actor, skipTurn_cost)) return false;
-
-    //    actor.energy -= skipTurn_cost;
-
-    //    //Debug.Log("Not implemented");
-    //    return true;
-    //}
-
-    //public bool TryToEvade(Unit actor)
-    //{
-    //    actor.effectsList.Add(new Effects.EvasionBoost(actor,40,4));
-    //    return true;
-    //}
-    #endregion
-    static float Calculate_DamageThroughtArmor(Unit defender, float Damage, string attack_type) // Старый скрипт рассчета урона через броню
+    
+    static float Calculate_DamageThroughtArmor(Actor defender, float Damage, string attack_type) // Старый скрипт рассчета урона через броню
     {
         float pierce_Damage, origin_damage;
         pierce_Damage = 0;
         origin_damage = Damage;
         if (attack_type == "Light")
         {
-            pierce_Damage = (Damage) * (1 - ((float)defender.armor / 125));
+            pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 125));
         }
         else if (attack_type == "Pierce")
         {
-            pierce_Damage = (Damage) * (1 - ((float)defender.armor / 150));
+            pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 150));
         }
         else if (attack_type == "Heavy")
         {
-            pierce_Damage = (Damage) * (1 - ((float)defender.armor / 100));
+            pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 100));
         }
         return pierce_Damage;
     }
-    static float Calculate_ArmorDestruction(Unit defender, float Damage, string attack_type) // Старый скрипт рассчета урона по броне
+    static float Calculate_ArmorDestruction(Actor defender, float Damage, string attack_type) // Старый скрипт рассчета урона по броне
     {
         float Armor = 0;
 
         if (attack_type == "Light")
         {
-            Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt(defender.armor))) / 2);
+            Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt(defender.unit.armor))) / 2);
         }
         else if (attack_type == "Pierce")
         {
-            Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt((defender.armor)))) / 8);
+            Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt((defender.unit.armor)))) / 8);
         }
         else if (attack_type == "Heavy")
         {
-            Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt((defender.armor)))) * 1.5);
+            Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt((defender.unit.armor)))) * 1.5);
         }
 
         return Armor;
     }
-    static float Calcultate_ShieldDamage(float damage, Unit defender) // Рассчет урона по щиту
+    static float Calcultate_ShieldDamage(float damage, Actor defender) // Рассчет урона по щиту
     {
         int damage_int = Convert.ToInt32(damage);
         int damage_throgh_shield = 0;
-        if (defender.shield != 0) //Если щита вовсе нет
+        if (defender.unit.shield != 0) //Если щита вовсе нет
         {
-            damage_throgh_shield = damage_int - defender.shield;
+            damage_throgh_shield = damage_int - defender.unit.shield;
             if (damage_throgh_shield < 0) // Если урон <0 значит щит не был пробит
             {
-                defender.shield = defender.shield - damage_int;
+                defender.unit.shield = defender.unit.shield - damage_int;
                 defender.CreateFloatingPoints(defender, damage_int, "shield");
                 return 0f;
             }
             else
             {
-                defender.shield = defender.shield - damage_int;
-                defender.CreateFloatingPoints(defender, defender.shield, "shield");
+                defender.unit.shield = defender.unit.shield - damage_int;
+                defender.CreateFloatingPoints(defender, defender.unit.shield, "shield");
                 return damage_throgh_shield;
             }
         }
@@ -336,15 +237,15 @@ internal class Actions
         
     }
 
-    static bool IsTargetEvaded(Unit enemy)
+    static bool IsTargetEvaded(Actor enemy)
     {
         int number = UnityEngine.Random.Range(0, 101);
-        if (number > enemy.evasion) return false;
+        if (number > enemy.unit.evasion) return false;
         else return true;
     }
-    static bool CheckEnergy(Unit actor, int cost)
+    static bool CheckEnergy(Actor actor, int cost)
     {
-        if (actor.energy - cost > 0) return true;
+        if (actor.unit.energy - cost > 0) return true;
         else return false;
     }
 

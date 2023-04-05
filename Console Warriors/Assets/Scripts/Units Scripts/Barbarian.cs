@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Barbarian : Enemy
-{ 
-    public Barbarian()
-    {
-        unit_name = "Barbarian";
-
-    }
+{
+    public Barbarian() { }
     private void Start()
     {
-        _health = 120;
-        _max_Health = 120;
+        unit = new Unit(UI, this);
+        unit.unit_name = "Barbarian";
+        unit.health = 120;
+        unit.max_Health = 120;
         actions.lightAttack.damage = 20;
         this.Initialization();
     }
