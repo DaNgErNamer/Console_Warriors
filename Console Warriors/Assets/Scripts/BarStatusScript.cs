@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
+[Serializable]
 public class BarStatusScript : MonoBehaviour
 {
     public Image Healthbar;
@@ -41,7 +42,7 @@ public class BarStatusScript : MonoBehaviour
 
     }
 
-    internal void Initialization(Units actor)
+    internal void Initialization(Unit actor)
     {
         
     }

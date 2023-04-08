@@ -29,13 +29,13 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
     {
         SetEnemy();
         LevelHandler.enemy = PickEnemy();
-        UiHandler.EnemyNameDisplay.text = LevelHandler.enemy.unit_name;
+        UiHandler.EnemyNameDisplay.text = LevelHandler.enemy.unit.unit_name;
         UiHandler.turn = 1;
     } 
 
-    private Units PickEnemy()
+    private Actor PickEnemy()
     {
-        Units unit = Enemy.GetComponentInChildren<Units>();
+        Actor unit = Enemy.GetComponentInChildren<Actor>();
         return unit;
     }
 

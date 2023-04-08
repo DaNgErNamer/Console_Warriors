@@ -10,8 +10,8 @@ public class Level : MonoBehaviour
 {
 	public enum TurnState { playerDecision = 0, playerAction, enemy, rest, after };
 
-	public Units player;
-    public Units enemy;
+	public Actor player;
+    public Actor enemy;
     public UIHandler UI;
     public Game game;
     public AfterLevelBonusesHandler Bonuses;
@@ -63,7 +63,7 @@ public class Level : MonoBehaviour
 
     }
 
-	protected IEnumerator TriggerAction(Units u)
+	protected IEnumerator TriggerAction(Unit u)
 	{
 
 
@@ -79,13 +79,24 @@ public class Level : MonoBehaviour
 	private void PlayerStage()
     {
         bool actionSucceded = false; // Отвечает за успешность действия.
-        player.EffectsCheck(); // Проверка эффектов + их действия
+        player.unit.EffectsCheck(); // Проверка эффектов + их действия
         if (UI.button_LightAttack_clicked) actionSucceded = player.actions.lightAttack.DoAttack(player, enemy);
         if (UI.button_PierceAttack_clicked) actionSucceded = player.actions.pierceAttack.DoAttack(player, enemy);
-        if (UI.button_HeavyAttack_clicked) actionSucceded = player.actions.heavyAttack.DoAttack(player, enemy);
+		if (UI.button_HeavyAttack_clicked)
+		{
+			player.Serialize(player.unit, "player_save.json");
+			enemy.Serialize(enemy.unit, "enemy_save.json");
+			Debug.Log("Serialization complete");
+			//actionSucceded = player.actions.heavyAttack.DoAttack(player, enemy);
+		}
         if (UI.button_Evade_clicked) actionSucceded = player.actions.tryToEvade.Do(player);
         if (UI.button_ShieldUp_clicked) actionSucceded = player.actions.shieldUp.Do(player);
-        if (UI.button_SkipTurn_clicked) actionSucceded = player.actions.skipTurn.Do(player);
+		if (UI.button_SkipTurn_clicked)
+		{
+			player.unit = player.Deserialize("player_save.json");
+			enemy.unit = enemy.Deserialize("enemy_save.json");
+			//actionSucceded = player.actions.skipTurn.Do(player);
+		}
 
 		levelState = TurnState.playerAction;
 
@@ -106,13 +117,13 @@ public class Level : MonoBehaviour
 
     private void EnemyStage()
     {
-        enemy.EffectsCheck();
+        enemy.unit.EffectsCheck();
         enemy.AI_Work(enemy, player);
     }
     private void RestStage()
     {
-        player.Rest();
-        enemy.Rest();
+        player.unit.Rest();
+        enemy.unit.Rest();
     }
     private void AfterLever()
     {
@@ -120,8 +131,8 @@ public class Level : MonoBehaviour
         player.Initialization();
         enemy.Initialization();
 
-        if (player.IsDead()) GameOver();
-        if (enemy.IsDead()) NextStage();
+        if (player.unit.IsDead()) GameOver();
+        if (enemy.unit.IsDead()) NextStage();
     }
 
     private void NextStage()
@@ -168,7 +179,7 @@ public class Level : MonoBehaviour
 			BinaryFormatter bf = new BinaryFormatter();
 			FileStream file = File.Open(Application.persistentDataPath + "/savetest.dat", FileMode.Open);
 			tStruct = (TestStruct)bf.Deserialize(file);
-			//player = (Units)bf.Deserialize(file);
+			//player = (Unit)bf.Deserialize(file);
 			file.Close();
 		}
 	}
@@ -196,7 +207,7 @@ public class Level : MonoBehaviour
 
 		if(levelState == TurnState.playerAction)
 		{
-			if(!player.isInAnimation)
+			if(!player.unit.isInAnimation)
 			{
 				EnemyStage();
 				levelState = TurnState.enemy;
@@ -205,7 +216,7 @@ public class Level : MonoBehaviour
 		else if(levelState == TurnState.enemy)
 		{
 			//NOTE: проверяем анимацию врага как выше
-			if (!enemy.isInAnimation)
+			if (!enemy.unit.isInAnimation)
 			{
 				RestStage();
 				levelState = TurnState.rest;
