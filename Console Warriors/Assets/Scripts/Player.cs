@@ -37,7 +37,8 @@ public partial class Player : Actor
     }
     private void Start()
     {
-        unit = new Unit(UI, this);
+        this.unit = new Unit(UI, this);
+        this.unit.traitList.Add(Traits.traits.human);
         this.Initialization();
     }
 

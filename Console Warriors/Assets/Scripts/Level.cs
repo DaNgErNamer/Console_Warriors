@@ -84,7 +84,8 @@ public class Level : MonoBehaviour
         if (UI.button_PierceAttack_clicked) actionSucceded = player.actions.pierceAttack.DoAttack(player, enemy);
 		if (UI.button_HeavyAttack_clicked)
 		{
-			player.Serialize(player.unit);
+			player.Serialize(player.unit, "player_save.json");
+			enemy.Serialize(enemy.unit, "enemy_save.json");
 			Debug.Log("Serialization complete");
 			//actionSucceded = player.actions.heavyAttack.DoAttack(player, enemy);
 		}
@@ -92,7 +93,8 @@ public class Level : MonoBehaviour
         if (UI.button_ShieldUp_clicked) actionSucceded = player.actions.shieldUp.Do(player);
 		if (UI.button_SkipTurn_clicked)
 		{
-			player.unit = player.Deserialize();
+			player.unit = player.Deserialize("player_save.json");
+			enemy.unit = enemy.Deserialize("enemy_save.json");
 			//actionSucceded = player.actions.skipTurn.Do(player);
 		}
 

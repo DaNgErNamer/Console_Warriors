@@ -7,13 +7,12 @@ public class Rogue : Enemy
     public Rogue() { }
     void Start()
     {
-        unit = new Unit(UI, this);
-        unit.unit_name = "Rogue";
-        unit.max_Health = 100;
-        unit.armor = 0;
-        unit.evasion = 30;
+        this.unit = new Unit(UI, this);
+        this.unit.unit_name = "Rogue";
+        this.unit.max_Health = 100;
+        this.unit.armor = 0;
+        this.unit.evasion = 30;
+        this.unit.traitList.Add(Traits.traits.human);
         this.Initialization();
-
     }
-
 }

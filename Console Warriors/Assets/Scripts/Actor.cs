@@ -28,10 +28,10 @@ public class Actor : MonoBehaviour
 
 
     #region dev_actions
-    public void Start()
-    {
-        unit = new Unit(UI, this);
-    }
+    //public void Start()
+    //{
+    //    unit = new Unit(UI, this);
+    //}
 
     public virtual void Initialization()
     {
@@ -77,16 +77,15 @@ public class Actor : MonoBehaviour
         points.transform.GetChild(0).GetComponent<TMP_Text>().color = color;
     }
 
-    public void Serialize(Unit unit)
+    public void Serialize(Unit unit,string fileName)
     {
-        string fileName = "player_save.json";
         string jsonString = JsonUtility.ToJson(unit);
         File.WriteAllText(fileName, jsonString);
     }
 
-    public Unit Deserialize()
+    public Unit Deserialize(string fileName)
     {
-        JsonUtility.FromJsonOverwrite("player_save.json", unit);
+        JsonUtility.FromJsonOverwrite(fileName, unit);
         return unit;
     }
     #endregion
