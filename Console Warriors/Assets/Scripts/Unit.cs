@@ -25,8 +25,10 @@ public class Unit
         this.UI = UI;
         this.actor = actor;
     }
-    #region stats
 
+    #region stats
+    [SerializeField]
+    public List<Traits.traits> traitList = new List<Traits.traits>();
     [SerializeField]
     internal List<Effects> effectsList = new List<Effects>();
     [SerializeField]
