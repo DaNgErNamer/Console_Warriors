@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3753.9082, g: 3283.1768, b: 2734.3018, a: 1}
+  m_IndirectSpecularColor: {r: 8928, g: 8928, b: 8928, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -607,7 +607,7 @@ PrefabInstance:
     - target: {fileID: 5497290353145490571, guid: e2a7b0be9a7f7ae418094160843d215e, type: 3}
       propertyPath: animator
       value: 
-      objectReference: {fileID: 1669776480}
+      objectReference: {fileID: 0}
     - target: {fileID: 6181402042084577827, guid: e2a7b0be9a7f7ae418094160843d215e, type: 3}
       propertyPath: m_Name
       value: Player
@@ -780,11 +780,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1170930987 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6181402042084577827, guid: e2a7b0be9a7f7ae418094160843d215e, type: 3}
-  m_PrefabInstance: {fileID: 616117120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1269635012
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,37 +1973,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1669776478 stripped
+--- !u!114 &1669776482 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5497290353145490571, guid: e2a7b0be9a7f7ae418094160843d215e, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7332187851078351636, guid: e2a7b0be9a7f7ae418094160843d215e, type: 3}
   m_PrefabInstance: {fileID: 616117120}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170930987}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ce69ea032d10ef4da84b28581756c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1669776480
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170930987}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 091e7b169efcac74bb835b01bc192206, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1695777999 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 39734337, guid: e2a7b0be9a7f7ae418094160843d215e, type: 3}
@@ -2422,7 +2397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6202dc54d819f469e18ce10576a260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1669776478}
+  player: {fileID: 1669776482}
   enemy: {fileID: 0}
   UI: {fileID: 1955311833}
   game: {fileID: 1731720480}

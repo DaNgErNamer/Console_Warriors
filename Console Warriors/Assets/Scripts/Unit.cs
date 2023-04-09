@@ -7,43 +7,69 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+//using Newtonsoft.Json;
 using UnityEngine;
 using TMPro;
 
 [Serializable]
-public class Unit : MonoBehaviour
+public class Unit
 {
-    // Поля начинающиеся с нижнего подчеркивания _* - НЕ должны изменятся где-либо и как-либо кроме этого и производного классов.
-    // Для изменения значений использовать открытые свойства! 
-    public Unit(){} // Всё что есть у юнита, в том числе игрока
-
-    public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
+    [NonSerialized]
+    protected BarStatusScript UI;
+    [NonSerialized]
+    protected Actor actor;
+    public Unit(BarStatusScript UI, Actor actor)
+    {
+        this.UI = UI;
+        this.actor = actor;
+    }
+    [SerializeField]
     internal Actions actions = new Actions();
-    public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
-    internal List<Effects> effectsList = new List<Effects>();
-	public Animator animator;
 
     #region stats
+    [SerializeField]
+    public List<Traits.traits> traitList = new List<Traits.traits>();
+    [SerializeField]
+    internal List<Effects> effectsList = new List<Effects>();
+    [SerializeField]
     internal string unit_name;
-    protected float _health=100;
-
+    [SerializeField]
+    protected float _health = 100;
+    [SerializeField]
     protected float _healthRest = 5;
+    [SerializeField]
     protected int _energy = 100;
+    [SerializeField]
     protected int _energyRest = 10;
+    [SerializeField]
     protected float _armor = 0;
+    [SerializeField]
     protected float _armorRest = 0;
+    [SerializeField]
     protected float _max_Health = 100;
+    [SerializeField]
     protected int _max_Energy = 100;
+    [SerializeField]
     protected float _max_Armor = 100;
+    [SerializeField]
     protected int _shield = 0;
+    [SerializeField]
     protected int _max_Shield = 25;
+    [SerializeField]
     protected int _bonuses = 3;
+    [SerializeField]
     protected int maxBonuses = 7;
+    [SerializeField]
+    public volatile bool isInAnimation = false;		//NOTE: важное замечание для сохранений - нужно хранить тип анимации и "кадр"!
+    public int evasion = 0;
 
-	public volatile bool isInAnimation = false;
 
-	public AudioClip s_hit;
 
+    #endregion
+
+    #region stats-properties
     public float max_Armor
     {
         get
@@ -56,14 +82,6 @@ public class Unit : MonoBehaviour
             _max_Armor = value;
         }
     }
-    //public float LightAttack_Damage { get; set; } = 10;
-    //public float PirceAttack_Damage { get; set; } = 10;
-    //public float HeavyAttack_Damage { get; set; } = 10;
-    public int evasion = 0;
-
-    #endregion
-
-    #region stats-properties
     public float health
     {
         get
@@ -74,7 +92,7 @@ public class Unit : MonoBehaviour
         {
             _health = value;
             if (_health > _max_Health) _health = _max_Health; // Обеспечивает невозможность дальнейшего прироста ХП свыше установленного максимума
-            UI.Healthbar.fillAmount = (float)((_health * 100 / _max_Health)/100);
+            UI.Healthbar.fillAmount = (float)((_health * 100 / _max_Health) / 100);
             UI.HealthText.text = String.Format("{0:0.0}", _health) + "/" + _max_Health.ToString() + " +" + _healthRest;
         }
     }
@@ -116,7 +134,7 @@ public class Unit : MonoBehaviour
         }
         set
         {
-            if(value<=0)
+            if (value <= 0)
             {
                 _shield = 0;
             }
@@ -207,7 +225,7 @@ public class Unit : MonoBehaviour
             if (_bonuses > maxBonuses) _bonuses = maxBonuses;
         }
     }
-  
+
     #endregion
 
     #region actions
@@ -217,13 +235,7 @@ public class Unit : MonoBehaviour
         this.energy += energyRest;
         this.armor += armorRest;
     }
-    public virtual void Initialization()
-    {
-        health = health;
-        shield = shield;
-        armor = armor;
-        energy = energy;
-    }
+
     public void EffectsCheck() // Проверяем все эффекты
     {
         for (int i = effectsList.Count - 1; i >= 0; i--) // Используется обратный цикл для безпроблемного удаления эффектов, без ошибки об изменении листа.
@@ -243,19 +255,19 @@ public class Unit : MonoBehaviour
 
     public void Evaded_Display()
     {
-        CreateFloatingPoints(this, "Evaded", Color.white);
+        actor.CreateFloatingPoints(this, "Evaded", Color.white);
     }
 
-	public void AnimationEnded()
-	{
-		isInAnimation = false;
-	}
+    public void AnimationEnded()
+    {
+        isInAnimation = false;
+    }
     #endregion
 
     #region devActions
     void Start()
     {
-		//this.UI.Initialization(this);
+        //this.UI.Initialization(this);
     }
     public bool IsDead()
     {
@@ -265,93 +277,8 @@ public class Unit : MonoBehaviour
         }
         else return false;
     }
-
-    public void CreateFloatingPoints (Unit unit, float damage, string damageType)
-    {
-        GameObject points = Instantiate(FloatingPoints, transform.position, Quaternion.identity) as GameObject;
-        points.transform.GetChild(0).GetComponent<TMP_Text>().text = String.Format("{0:0.0}", damage);
-        switch (damageType)
-        {
-            case "health":
-                {
-                    points.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.red;
-                    break;
-                }
-            case "armor":
-                {
-                    points.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.gray;
-                    break;
-                }
-            case "shield":
-                {
-                    points.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.cyan;
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
-    }
-
-    public void CreateFloatingPoints(Unit unit, string text, Color color)
-    {
-        GameObject points = Instantiate(FloatingPoints, transform.position, Quaternion.identity) as GameObject;
-        points.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
-        points.transform.GetChild(0).GetComponent<TMP_Text>().color = color;
-    }
     #endregion
-
-    #region AI
-    public virtual void AI_Work(Unit actor, Unit enemy) // Базовый ИИ для юнитов, каждый потом будет перезаписывать под себя.
-    {
-        int random = UnityEngine.Random.Range(0, 5);
-        switch (random)
-        {
-            case 0:
-                {
-                    actions.lightAttack.DoAttack(actor, enemy);
-                    Debug.Log("Противник проводит легкую атаку");
-                    break;
-                }
-            case 1:
-                {
-                    actions.heavyAttack.DoAttack(actor, enemy);
-                    Debug.Log("Противник проводит тяжелую атаку");
-                    break;
-                }
-            case 2:
-                {
-                    actions.pierceAttack.DoAttack(actor, enemy);
-                    Debug.Log("Противник проводит проникающую атаку");
-                    break;
-                }
-            case 3:
-                {
-                    actions.shieldUp.Do(actor);
-                    Debug.Log("Противник ставит щит");
-                    break;
-                }
-            case 4:
-                {
-                    actions.skipTurn.Do(actor);
-                    Debug.Log("Противник пропускает ход");
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
-    }
-    #endregion
-
 }
-[Serializable]
-public partial class Player : Unit 
-{ }
 
-public partial class Enemy : Unit
-{ }
 
 
