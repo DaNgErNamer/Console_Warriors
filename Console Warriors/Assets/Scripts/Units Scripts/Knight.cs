@@ -14,7 +14,7 @@ public class Knight : Enemy
         this.unit.health = 100;
         this.unit.max_Armor = 100;
         this.unit.armor = 30;
-        this.actions.lightAttack.damage = 20;
+        this.unit.actions.lightAttack.damage = 20;
         this.unit.healthRest = 15;
         this.unit.energyRest = 8;
         this.unit.traitList.Add(Traits.traits.human);

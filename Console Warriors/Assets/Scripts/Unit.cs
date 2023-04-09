@@ -25,6 +25,8 @@ public class Unit
         this.UI = UI;
         this.actor = actor;
     }
+    [SerializeField]
+    internal Actions actions = new Actions();
 
     #region stats
     [SerializeField]

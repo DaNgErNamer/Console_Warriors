@@ -20,7 +20,6 @@ public class Actor : MonoBehaviour
     public Actor() { }
     public Unit unit;  // Всё что есть у юнита, в том числе игрока
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
-    internal Actions actions = new Actions();
     public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
 
     public AudioClip s_hit;
@@ -98,31 +97,31 @@ public class Actor : MonoBehaviour
         {
             case 0:
                 {
-                    actions.lightAttack.DoAttack(actor, enemy);
+                    unit.actions.lightAttack.DoAttack(actor, enemy);
                     Debug.Log("Противник проводит легкую атаку");
                     break;
                 }
             case 1:
                 {
-                    actions.heavyAttack.DoAttack(actor, enemy);
+                    unit.actions.heavyAttack.DoAttack(actor, enemy);
                     Debug.Log("Противник проводит тяжелую атаку");
                     break;
                 }
             case 2:
                 {
-                    actions.pierceAttack.DoAttack(actor, enemy);
+                    unit.actions.pierceAttack.DoAttack(actor, enemy);
                     Debug.Log("Противник проводит проникающую атаку");
                     break;
                 }
             case 3:
                 {
-                    actions.shieldUp.Do(actor);
+                    unit.actions.shieldUp.Do(actor);
                     Debug.Log("Противник ставит щит");
                     break;
                 }
             case 4:
                 {
-                    actions.skipTurn.Do(actor);
+                    unit.actions.skipTurn.Do(actor);
                     Debug.Log("Противник пропускает ход");
                     break;
                 }

@@ -9,7 +9,7 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-
+[Serializable]
 internal class Actions
 {
     internal int cost = 0;
@@ -21,10 +21,10 @@ internal class Actions
     internal TryToEvade tryToEvade = new TryToEvade();
     internal SkipTurn skipTurn = new SkipTurn();
 
-	
 
 
-	internal class BaseAction// : MonoBehaviour
+    [Serializable]
+    internal class BaseAction
 	{
 		protected void BaseAttack(Actor attacker, Actor defender)
 		{
@@ -40,7 +40,7 @@ internal class Actions
 			SoundManager.instance.PlaySingle(unit.s_hit);
 		}
 	}
-
+    [Serializable]
     internal class LightAttack : BaseAction
     {
         internal int cost = 10;
@@ -74,6 +74,7 @@ internal class Actions
             }
         }
     }
+    [Serializable]
     internal class HeavyAttack : BaseAction
     {
         internal int cost = 15;
@@ -105,6 +106,7 @@ internal class Actions
             }
         }
     }
+    [Serializable]
     internal class PierceAttack : BaseAction
 	{
         internal int cost = 15;
@@ -136,6 +138,7 @@ internal class Actions
             }
         }
     }
+    [Serializable]
     internal class ShieldUp : BaseAction
 	{
         internal int cost = 20;
@@ -149,6 +152,7 @@ internal class Actions
             return true;
         }
     }
+    [Serializable]
     internal class TryToEvade : BaseAction
 	{
         internal int cost = 25;
@@ -160,6 +164,7 @@ internal class Actions
             return true;
         }
     }
+    [Serializable]
     internal class SkipTurn : BaseAction
 	{
         internal int cost = 0;
@@ -171,7 +176,7 @@ internal class Actions
         }
     }
 
-    
+
     static float Calculate_DamageThroughtArmor(Actor defender, float Damage, string attack_type) // Старый скрипт рассчета урона через броню
     {
         float pierce_Damage, origin_damage;
