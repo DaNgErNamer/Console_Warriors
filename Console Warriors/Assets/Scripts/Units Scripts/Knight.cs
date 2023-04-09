@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class Knight : Enemy
 {
-    public Knight()
-    {
-
-        unit_name = "Knight";
-    }
+    public Knight() { }
 
     private void Start()
     {
-        max_Health = 100;
-        health = 100;
-        max_Armor = 100;
-        armor = 30;
-        actions.lightAttack.damage = 20;
-        healthRest = 15;
-        energyRest = 8;
+        this.unit = new Unit(UI, this);
+        this.unit.unit_name = "Knight";
+        this.unit.max_Health = 100;
+        this.unit.health = 100;
+        this.unit.max_Armor = 100;
+        this.unit.armor = 30;
+        this.unit.actions.lightAttack.damage = 20;
+        this.unit.healthRest = 15;
+        this.unit.energyRest = 8;
+        this.unit.traitList.Add(Traits.traits.human);
         this.Initialization();
     }
 }

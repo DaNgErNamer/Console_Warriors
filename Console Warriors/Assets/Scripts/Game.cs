@@ -10,11 +10,10 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включа€ лог
     // Ememy - объект пустышка дл€ заполнени€ любым противником, исключительно дл€ единого имени и удобства.
     public GameObject Enemy;
 
-    //Ќиже список всех врагов,а именно префабов добавленных через инспектор, из них будет делатьс€ выбор.
-    // Tier 1
-    public GameObject Knigth;
-    public GameObject Barbarian;
-    public GameObject Rogue;
+	//Ќиже список всех врагов,а именно префабов добавленных через инспектор, из них будет делатьс€ выбор.
+	// Tier 1
+	public GameObject[] Tier1Enemies;
+
     protected GameObject InstantiatedUnit;
 
 
@@ -30,43 +29,21 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включа€ лог
     {
         SetEnemy();
         LevelHandler.enemy = PickEnemy();
-        UiHandler.EnemyNameDisplay.text = LevelHandler.enemy.unit_name;
+        UiHandler.EnemyNameDisplay.text = LevelHandler.enemy.unit.unit_name;
         UiHandler.turn = 1;
     } 
 
-    private Units PickEnemy()
+    private Actor PickEnemy()
     {
-        Units unit = Enemy.GetComponentInChildren<Units>();
+        Actor unit = Enemy.GetComponentInChildren<Actor>();
         return unit;
     }
 
     private void SetEnemy()
     {
-        int choice = Random.Range(0, 3); // –андомный выбор персонажей
-        switch (choice)
-        {
-            case 0:
-                {
-                    InstantiatedUnit = Instantiate(Barbarian, Enemy.transform);
-                    break;
-                }
-            case 1:
-                {
-                    InstantiatedUnit = Instantiate(Knigth, Enemy.transform);
-                    break;
-                }
-            case 2:
-                {
-                    InstantiatedUnit = Instantiate(Rogue, Enemy.transform);
-                    break;
-                }
-
-            default:
-                {
-                    break;
-                }
-        }
-    }
+		InstantiatedUnit = Instantiate(Tier1Enemies[Random.Range(0, Tier1Enemies.Length)], Enemy.transform);	//NOTE: –андомный выбор персонажей из массива префабов
+		InstantiatedUnit.transform.Rotate(0f, 80f, 0f);			//NOTE: не могу пон€ть почему сразу не создаЄтс€ не в той точке и не с тем поворотом
+	}
 
     public void NextStage()
     {
