@@ -88,7 +88,6 @@ public class Actor : MonoBehaviour
         return unit;
     }
     #endregion
-
     #region AI
     public virtual void AI_Work(Actor actor, Actor enemy) // Базовый ИИ для юнитов, каждый потом будет перезаписывать под себя.
     {
@@ -131,7 +130,13 @@ public class Actor : MonoBehaviour
                 }
         }
     }
-    #endregion
+	#endregion
+	#region Animation
+	public void AnimationEnded()
+	{
+		unit.AnimationEnded();
+	}
+	#endregion
 
 
 }

@@ -62,7 +62,7 @@ public class Unit
     [SerializeField]
     protected int maxBonuses = 7;
     [SerializeField]
-    public volatile bool isInAnimation = false;
+    public volatile bool isInAnimation = false;		//NOTE: важное замечание для сохранений - нужно хранить тип анимации и "кадр"!
     public int evasion = 0;
 
 
