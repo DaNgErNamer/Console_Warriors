@@ -122,8 +122,15 @@ public class Unit
             _armor = value;
             if (_armor > _max_Armor) _armor = _max_Armor; // Обеспечивает невозможность дальнейшего прироста брони свыше установленного максимума
             if (_armor < 0) _armor = 0; // Пока что ограничиваем броню левым диапазоном
-            UI.Armorbar.fillAmount = (float)((_armor * 100 / _max_Armor) / 100);
-            UI.ArmorText.text = String.Format("{0:0.0}", _armor) + "/" + _max_Armor.ToString() + " +" + _armorRest;
+
+            if (_armor > 0) UI.ArmorIcon.SetActive(true); // Включает/отключает отображение иконки
+            else UI.ArmorIcon.SetActive(false);
+
+            if (_armorRest > 0) // Если броня восстанавливается
+                UI.ArmorText.text = String.Format("{0:0.0}", _armor) + " +" + _armorRest;
+            else // Если броня не восстанавливается
+                UI.ArmorText.text = String.Format("{0:0.0}", _armor);
+
         }
     }
     public int shield
@@ -142,8 +149,10 @@ public class Unit
             {
                 _shield = value;
             }
-            UI.Shieldbar.fillAmount = (float)(((float)_shield * 100 / (float)_max_Shield) / 100);
-            UI.ShieldText.text = _shield.ToString() + "/" + _max_Shield.ToString();
+
+            if (_shield > 0) UI.ShieldIcon.SetActive(true); // Включает/отключает отображение иконки
+            else UI.ShieldIcon.SetActive(false);
+            UI.ShieldText.text = _shield.ToString();
         }
     }
     public float healthRest
