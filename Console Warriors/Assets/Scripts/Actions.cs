@@ -12,13 +12,19 @@ using UnityEngine;
 [Serializable]
 internal class Actions
 {
+    [SerializeField]
     internal int cost = 0;
-
+    [SerializeField]
     internal LightAttack lightAttack = new LightAttack();
+    [SerializeField]
     internal HeavyAttack heavyAttack = new HeavyAttack();
+    [SerializeField]
     internal PierceAttack pierceAttack = new PierceAttack();
+    [SerializeField]
     internal ShieldUp shieldUp = new ShieldUp();
+    [SerializeField]
     internal TryToEvade tryToEvade = new TryToEvade();
+    [SerializeField]
     internal SkipTurn skipTurn = new SkipTurn();
 
 
@@ -43,7 +49,9 @@ internal class Actions
     [Serializable]
     internal class LightAttack : BaseAction
     {
+        [SerializeField]
         internal int cost = 10;
+        [SerializeField]
         internal int damage = 25;
         internal bool DoAttack(Actor attacker, Actor defender)
         {
@@ -77,7 +85,9 @@ internal class Actions
     [Serializable]
     internal class HeavyAttack : BaseAction
     {
+        [SerializeField]
         internal int cost = 15;
+        [SerializeField]
         internal int damage = 20;
         internal bool DoAttack(Actor attacker, Actor defender)
         {
@@ -109,7 +119,9 @@ internal class Actions
     [Serializable]
     internal class PierceAttack : BaseAction
 	{
+        [SerializeField]
         internal int cost = 15;
+        [SerializeField]
         internal int damage = 20;
         internal bool DoAttack(Actor attacker, Actor defender)
         {
@@ -141,7 +153,9 @@ internal class Actions
     [Serializable]
     internal class ShieldUp : BaseAction
 	{
+        [SerializeField]
         internal int cost = 20;
+        [SerializeField]
         internal bool isUsed = false;
         internal bool Do(Actor actor)
         {
@@ -155,6 +169,7 @@ internal class Actions
     [Serializable]
     internal class TryToEvade : BaseAction
 	{
+        [SerializeField]
         internal int cost = 25;
         internal bool Do(Actor actor)
         {
@@ -167,6 +182,7 @@ internal class Actions
     [Serializable]
     internal class SkipTurn : BaseAction
 	{
+        [SerializeField]
         internal int cost = 0;
         internal bool Do(Actor actor)
         {
