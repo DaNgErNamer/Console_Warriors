@@ -7,7 +7,6 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
     public Level LevelHandler;
     public UIHandler UiHandler;
     public GameObject Menu;
-
     // Ememy - объект пустышка для заполнения любым противником, исключительно для единого имени и удобства.
     public GameObject Enemy;
 

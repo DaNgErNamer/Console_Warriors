@@ -262,6 +262,11 @@ public class Unit
         }
     }
 
+    internal void AddEffectToUnit(Effects effect)
+    {
+        effectsList.Add(effect);
+    }
+
     public void Evaded_Display()
     {
         actor.CreateFloatingPoints(this, "Evaded", Color.white);
@@ -286,6 +291,8 @@ public class Unit
         }
         else return false;
     }
+
+
     #endregion
 }
 

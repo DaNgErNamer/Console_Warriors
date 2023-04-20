@@ -39,6 +39,12 @@ public class Actor : MonoBehaviour
         unit.armor = unit.armor;
         unit.energy = unit.energy;
     }
+
+    public void AddEffect(Effects effect)
+    {
+        Instantiate(effect.Effect, UI.EffectsPanel.transform);
+        unit.AddEffectToUnit(effect);
+    }
     #endregion
     #region actions
     public void CreateFloatingPoints(Actor unit, float damage, string damageType)

@@ -17,6 +17,8 @@ public class BarStatusScript : MonoBehaviour
     public TMP_Text ShieldText;
     public TMP_Text EnergyText;
     public TMP_Text ArmorText;
+
+    public GameObject EffectsPanel;
     internal void Initialization(Unit actor)
     {
         

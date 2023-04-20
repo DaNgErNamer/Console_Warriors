@@ -19,10 +19,18 @@ using System.Text.Json.Serialization;
 [Serializable]
 public class Effects
 {
+    public Effect_Mono Effect; // Объект для привязки к UI эффекту, не сериализуется
+
     [SerializeField]
-    internal int value;
+    private int _value;
     [SerializeField]
-    internal int turnsLeft;
+    private int _turnsLeft;
+
+    public virtual int value { get; set; }
+    public virtual int turnsLeft { get; set; }
+
+
+
     [SerializeField]
     internal Actor actor;
     /// <summary>
@@ -36,8 +44,33 @@ public class Effects
     [Serializable]
     public class EvasionBoost : Effects
     {
-        public EvasionBoost(Actor actor, int evasionValue, int turns)
+        public override int value // Позволяет управлять эффектом на UI
         {
+            get
+            {
+                return _value;
+            }
+            set
+            {
+                Effect.value = value;
+                _value = value;
+            }
+        }
+        public override int turnsLeft
+        {
+            get
+            {
+                return _turnsLeft;
+            }
+            set
+            {
+                Effect.turnsLeft = value;
+                _turnsLeft = value;
+            }
+        }
+        public EvasionBoost(Actor actor, int evasionValue, int turns, Effect_Mono effectObj)
+        {
+            this.Effect = effectObj; // Обязательно должно стоят первым
             this.value = evasionValue;
             this.turnsLeft = turns;
             this.actor = actor;
