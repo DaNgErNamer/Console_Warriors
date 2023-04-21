@@ -175,7 +175,7 @@ internal class Actions
         {
             if (!CheckEnergy(actor, cost)) return false;
             actor.unit.energy -= cost;
-            actor.AddEffect(new Effects.EvasionBoost(actor,40,4));
+            actor.AddEffect(new Effects.EvasionBoost(actor,40,4,actor.effects_prefs.Evasion_pref));
             //actor.unit.effectsList.Add(new Effects.EvasionBoost(actor, 40, 4));
             return true;
         }

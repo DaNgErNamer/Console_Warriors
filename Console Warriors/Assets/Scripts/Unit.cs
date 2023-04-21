@@ -130,7 +130,6 @@ public class Unit
                 UI.ArmorText.text = String.Format("{0:0.0}", _armor) + " +" + _armorRest;
             else // Если броня не восстанавливается
                 UI.ArmorText.text = String.Format("{0:0.0}", _armor);
-
         }
     }
     public int shield
@@ -253,13 +252,20 @@ public class Unit
             if (effectsList[i].turnsLeft <= 0) // Если время эффекта истекло - отменяем его действие и убираем из списка
             {
                 effectsList[i].EndEffect();
-                effectsList.Remove(effectsList[i]);
+                RemoveEffect(i);
             }
             else // Если не истекло - эффект действует.
             {
                 effectsList[i].DoEffect();
             }
         }
+    }
+
+    private void RemoveEffect(int i)
+    {
+        Effects effect = effectsList[i];
+        effectsList.Remove(effectsList[i]);
+        actor.RemoveEffect(effect);
     }
 
     internal void AddEffectToUnit(Effects effect)

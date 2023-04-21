@@ -85,8 +85,9 @@ MonoBehaviour:
     maxBonuses: 0
     isInAnimation: 0
     evasion: 0
-  UI: {fileID: 0}
+  UI: {fileID: 148741447047921995}
   FloatingPoints: {fileID: 7575713348142051179, guid: 44daa175a054c294892f98faf834a2b4, type: 3}
+  effects_prefs: {fileID: 0}
   s_hit: {fileID: 8300000, guid: 171aca8f714ac574e8dda95d31b034d1, type: 3}
   animator: {fileID: 2666942364965206486}
 --- !u!95 &2666942364965206486

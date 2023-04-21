@@ -21,6 +21,7 @@ public class Actor : MonoBehaviour
     public Unit unit;  // Всё что есть у юнита, в том числе игрока
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
     public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
+    public Effects_Prefab effects_prefs; // Список префабов для создания эффектов
 
     public AudioClip s_hit;
     public Animator animator;
@@ -42,8 +43,13 @@ public class Actor : MonoBehaviour
 
     public void AddEffect(Effects effect)
     {
-        Instantiate(effect.Effect, UI.EffectsPanel.transform);
+        var instantitedEffect = Instantiate(effect.Effect, UI.EffectsPanel.transform);
+        effect.Effect = instantitedEffect; // Присваиваем объекту класса ссылку на объект на сцене
         unit.AddEffectToUnit(effect);
+    }
+    internal void RemoveEffect(Effects effect)
+    {
+        Destroy(effect.Effect.gameObject);
     }
     #endregion
     #region actions
@@ -142,7 +148,9 @@ public class Actor : MonoBehaviour
 	{
 		unit.AnimationEnded();
 	}
-	#endregion
+
+
+    #endregion
 
 
 }
