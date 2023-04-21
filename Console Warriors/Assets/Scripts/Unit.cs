@@ -127,9 +127,9 @@ public class Unit
             else UI.ArmorIcon.SetActive(false);
 
             if (_armorRest > 0) // Если броня восстанавливается
-                UI.ArmorText.text = String.Format("{0:0.0}", _armor) + " +" + _armorRest;
+                UI.ArmorText.text = String.Format("{0:0}", _armor) + " +" + _armorRest;
             else // Если броня не восстанавливается
-                UI.ArmorText.text = String.Format("{0:0.0}", _armor);
+                UI.ArmorText.text = String.Format("{0:0}", _armor);
         }
     }
     public int shield

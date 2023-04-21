@@ -12,6 +12,7 @@ public class Barbarian : Enemy
         this.unit.health = 120;
         this.unit.max_Health = 120;
         this.unit.actions.lightAttack.damage = 20;
+        this.unit.armor = 5;
         this.unit.traitList.Add(Traits.traits.human);
         this.Initialization();
     }

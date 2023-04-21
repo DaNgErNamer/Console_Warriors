@@ -69,9 +69,10 @@ internal class Actions
                 defender.unit.health -= damage;
                 defender.CreateFloatingPoints(defender, damage, "health");
 
-                damage = Calculate_ArmorDestruction(defender, damage, "Light"); // Рассчет урона по доспехам
-                if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-                defender.unit.armor -= damage;
+                /// Планируемое отключение системы разрущения брони
+                //damage = Calculate_ArmorDestruction(defender, damage, "Light"); // Рассчет урона по доспехам
+                //if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
+                //defender.unit.armor -= damage;
 
                 return true;
             }
@@ -105,9 +106,10 @@ internal class Actions
                 defender.unit.health -= damage;
                 defender.CreateFloatingPoints(defender, damage, "health");
 
-                damage = Calculate_ArmorDestruction(defender, damage, "Heavy"); // Рассчет урона по доспехам
-                if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-                defender.unit.armor -= damage;
+                /// Планируемое отключение системы разрущения брони
+                //damage = Calculate_ArmorDestruction(defender, damage, "Heavy"); // Рассчет урона по доспехам
+                //if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
+                //defender.unit.armor -= damage;
                 return true;
             }
             {
@@ -139,9 +141,10 @@ internal class Actions
                 defender.unit.health -= damage;
                 defender.CreateFloatingPoints(defender, damage, "health");
 
-                damage = Calculate_ArmorDestruction(defender, damage, "Pierce"); // Рассчет урона по доспехам
-                if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
-                defender.unit.armor -= damage;
+                /// Планируемое отключение системы разрущения брони
+                //damage = Calculate_ArmorDestruction(defender, damage, "Pierce"); // Рассчет урона по доспехам
+                //if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
+                //defender.unit.armor -= damage;
                 return true;
             }
             {
@@ -199,39 +202,57 @@ internal class Actions
         float pierce_Damage, origin_damage;
         pierce_Damage = 0;
         origin_damage = Damage;
+
+        /// Старые формулы рассчета урона через броню, устарели
+        //if (attack_type == "Light")
+        //{
+        //    pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 125));
+        //}
+        //else if (attack_type == "Pierce")
+        //{
+        //    pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 150));
+        //}
+        //else if (attack_type == "Heavy")
+        //{
+        //    pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 100));
+        //}
+
         if (attack_type == "Light")
         {
-            pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 125));
+            pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 100));
         }
         else if (attack_type == "Pierce")
         {
-            pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 150));
+            pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 125));
         }
-        else if (attack_type == "Heavy")
+        else if (attack_type == "Heavy") // Следует потом изменить
         {
             pierce_Damage = (Damage) * (1 - ((float)defender.unit.armor / 100));
         }
         return pierce_Damage;
     }
-    static float Calculate_ArmorDestruction(Actor defender, float Damage, string attack_type) // Старый скрипт рассчета урона по броне
-    {
-        float Armor = 0;
+    /// <summary>
+    /// Отключенный метод расчета разрушения брони, планируется убрать механику
+    /// </summary>
+    //static float Calculate_ArmorDestruction(Actor defender, float Damage, string attack_type) // Старый скрипт рассчета урона по броне
+    //{
+    //    float Armor = 0;
 
-        if (attack_type == "Light")
-        {
-            Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt(defender.unit.armor))) / 2);
-        }
-        else if (attack_type == "Pierce")
-        {
-            Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt((defender.unit.armor)))) / 8);
-        }
-        else if (attack_type == "Heavy")
-        {
-            Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt((defender.unit.armor)))) * 1.5);
-        }
+    //    if (attack_type == "Light")
+    //    {
+    //        Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt(defender.unit.armor))) / 2);
+    //    }
+    //    else if (attack_type == "Pierce")
+    //    {
+    //        Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt((defender.unit.armor)))) / 8);
+    //    }
+    //    else if (attack_type == "Heavy")
+    //    {
+    //        Armor = (float)((Damage + (Math.Sqrt(100) - (float)Math.Sqrt((defender.unit.armor)))) * 1.5);
+    //    }
 
-        return Armor;
-    }
+    //    return Armor;
+    //}
     static float Calcultate_ShieldDamage(float damage, Actor defender) // Рассчет урона по щиту
     {
         int damage_int = Convert.ToInt32(damage);
