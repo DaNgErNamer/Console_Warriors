@@ -73,24 +73,20 @@ public class AfterLevelBonusesHandler : MonoBehaviour
                 {
                     bonus = PickBonus(1);
                     return bonus;
-                    break;
                 }
             case 2:
                 {
                     bonus = PickBonus(2);
                     return bonus;
-                    break;
                 }
             case 3:
                 {
                     bonus = PickBonus(3);
                     return bonus;
-                    break;
                 }
             default:
                 {
                     return new Bonuses();
-                    break;
                 }
         }
     }

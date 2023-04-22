@@ -6,7 +6,6 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
 {
     public Level LevelHandler;
     public UIHandler UiHandler;
-    public GameObject Menu;
     // Ememy - объект пустышка для заполнения любым противником, исключительно для единого имени и удобства.
     public GameObject Enemy;
 
@@ -15,7 +14,7 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
 	public GameObject[] Tier1Enemies;
 
     protected GameObject InstantiatedUnit;
-
+    
 
     enum Enemy_int
     {
@@ -66,25 +65,5 @@ public class Game : MonoBehaviour // Game контролирует все процессы, включая лог
     {
         LevelHandler.player.unit = LevelHandler.player.Deserialize("player_save.json");
         Debug.Log("Игрок загружен!");
-    }
-
-    public void FixedUpdate()
-    {
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            PauseGame();
-        }
-    }
-
-    public void PauseGame()
-    {
-        Time.timeScale = 0;
-        Menu.SetActive(true);
-    }
-
-    public void UnpauseGame()
-    {
-        Menu.SetActive(false);
-        Time.timeScale = 1;
     }
 }

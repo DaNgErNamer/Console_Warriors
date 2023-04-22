@@ -19,8 +19,58 @@ public class BarStatusScript : MonoBehaviour
     public TMP_Text ArmorText;
 
     public GameObject EffectsPanel;
+
+    public GameObject MenuWindow;
+    public GameObject InventoryWindow;
     internal void Initialization(Unit actor)
     {
         
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            CloseOtherWindows();
+            PauseGame();
+        }
+
+        if (Input.GetKeyUp(KeyCode.I))
+        {
+            ShowInventory();
+        }
+    }
+
+    private void CloseOtherWindows()
+    {
+        InventoryWindow.SetActive(false);
+    }
+
+    public void PauseGame()
+    {
+        if (!MenuWindow.activeSelf)
+        {
+            Time.timeScale = 0;
+            MenuWindow.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            MenuWindow.SetActive(false);
+        }
+    }
+
+    public void ShowInventory()
+    {
+        if (!InventoryWindow.activeSelf)
+        {
+            Time.timeScale = 0;
+            InventoryWindow.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            InventoryWindow.SetActive(false);
+        }
     }
 }
