@@ -320,6 +320,14 @@ MonoBehaviour:
   action_5_btn: {fileID: 7932098391406634329}
   action_6_btn: {fileID: 3974588427165730455}
   action_7_btn: {fileID: 6586323633677936987}
+  btn_1_txt: {fileID: 0}
+  btn_2_txt: {fileID: 0}
+  btn_3_txt: {fileID: 0}
+  btn_4_txt: {fileID: 0}
+  btn_5_txt: {fileID: 0}
+  btn_6_txt: {fileID: 0}
+  btn_7_txt: {fileID: 0}
+  UI: {fileID: 0}
 --- !u!1 &920591341736770109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,7 +1501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: -757
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
