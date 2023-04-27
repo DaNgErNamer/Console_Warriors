@@ -22,6 +22,8 @@ public class Actor : MonoBehaviour
     public BarStatusScript UI; // UI скрипт для отображения состояния юнита на UI
     public GameObject FloatingPoints; // Префаб для отображения единиц урона в виде появляющихся цифр
     public Effects_Prefab effects_prefs; // Список префабов для создания эффектов
+    internal List<GameObject> actionButtons_List = new List<GameObject>();
+
 
     public AudioClip s_hit;
     public Animator animator;
@@ -104,43 +106,43 @@ public class Actor : MonoBehaviour
     public virtual void AI_Work(Actor actor, Actor enemy) // Базовый ИИ для юнитов, каждый потом будет перезаписывать под себя.
     {
         int random = UnityEngine.Random.Range(0, 5);
-        switch (random)
-        {
-            case 0:
-                {
-                    unit.actions.lightAttack.DoAttack(actor, enemy);
-                    Debug.Log("Противник проводит легкую атаку");
-                    break;
-                }
-            case 1:
-                {
-                    unit.actions.heavyAttack.DoAttack(actor, enemy);
-                    Debug.Log("Противник проводит тяжелую атаку");
-                    break;
-                }
-            case 2:
-                {
-                    unit.actions.pierceAttack.DoAttack(actor, enemy);
-                    Debug.Log("Противник проводит проникающую атаку");
-                    break;
-                }
-            case 3:
-                {
-                    unit.actions.shieldUp.Do(actor);
-                    Debug.Log("Противник ставит щит");
-                    break;
-                }
-            case 4:
-                {
-                    unit.actions.skipTurn.Do(actor);
-                    Debug.Log("Противник пропускает ход");
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
+        //switch (random)
+        //{
+        //    case 0:
+        //        {
+        //            unit.actions.lightAttack.DoAttack(actor, enemy);
+        //            Debug.Log("Противник проводит легкую атаку");
+        //            break;
+        //        }
+        //    case 1:
+        //        {
+        //            unit.actions.heavyAttack.DoAttack(actor, enemy);
+        //            Debug.Log("Противник проводит тяжелую атаку");
+        //            break;
+        //        }
+        //    case 2:
+        //        {
+        //            unit.actions.pierceAttack.DoAttack(actor, enemy);
+        //            Debug.Log("Противник проводит проникающую атаку");
+        //            break;
+        //        }
+        //    case 3:
+        //        {
+        //            unit.actions.shieldUp.Do(actor);
+        //            Debug.Log("Противник ставит щит");
+        //            break;
+        //        }
+        //    case 4:
+        //        {
+        //            unit.actions.skipTurn.Do(actor);
+        //            Debug.Log("Противник пропускает ход");
+        //            break;
+        //        }
+        //    default:
+        //        {
+        //            break;
+        //        }
+        //}
     }
 	#endregion
 	#region Animation

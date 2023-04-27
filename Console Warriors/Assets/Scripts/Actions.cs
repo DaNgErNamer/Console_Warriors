@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 [Serializable]
 internal class Actions
@@ -15,22 +17,35 @@ internal class Actions
     [SerializeField]
     internal int cost = 0;
     [SerializeField]
-    internal LightAttack lightAttack = new LightAttack();
+    internal string name;
     [SerializeField]
-    internal HeavyAttack heavyAttack = new HeavyAttack();
-    [SerializeField]
-    internal PierceAttack pierceAttack = new PierceAttack();
-    [SerializeField]
-    internal ShieldUp shieldUp = new ShieldUp();
-    [SerializeField]
-    internal TryToEvade tryToEvade = new TryToEvade();
-    [SerializeField]
-    internal SkipTurn skipTurn = new SkipTurn();
+    internal string description;
+
+    public virtual bool DoAction() { return false; }
+    public virtual bool DoAction(Actor actor) { return false; }
+    public virtual bool DoAction(Actor attacker, Actor defender) { return false; }
+
+    public virtual void Clicked(GameObject gameObject)
+    {
+        Debug.Log("Button clicked");
+    }
+    //[SerializeField]
+    //internal LightAttack lightAttack = new LightAttack();
+    //[SerializeField]
+    //internal HeavyAttack heavyAttack = new HeavyAttack();
+    //[SerializeField]
+    //internal PierceAttack pierceAttack = new PierceAttack();
+    //[SerializeField]
+    //internal ShieldUp shieldUp = new ShieldUp();
+    //[SerializeField]
+    //internal TryToEvade tryToEvade = new TryToEvade();
+    //[SerializeField]
+    //internal SkipTurn skipTurn = new SkipTurn();
 
 
 
     [Serializable]
-    internal class BaseAction
+    internal class BaseAction:Actions
 	{
 		protected void BaseAttack(Actor attacker, Actor defender)
 		{
@@ -46,6 +61,7 @@ internal class Actions
 			SoundManager.instance.PlaySingle(unit.s_hit);
 		}
 	}
+
     [Serializable]
     internal class LightAttack : BaseAction
     {
@@ -53,7 +69,11 @@ internal class Actions
         internal int cost = 10;
         [SerializeField]
         internal int damage = 25;
-        internal bool DoAttack(Actor attacker, Actor defender)
+        public LightAttack()
+        {
+            name = "Light attack";
+        }
+        public override bool DoAction(Actor attacker, Actor defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
 
@@ -73,13 +93,12 @@ internal class Actions
                 //damage = Calculate_ArmorDestruction(defender, damage, "Light"); // Рассчет урона по доспехам
                 //if (defender.unit.armor != 0) defender.CreateFloatingPoints(defender, damage, "armor");
                 //defender.unit.armor -= damage;
-
                 return true;
             }
             else
             {
                 defender.unit.Evaded_Display();
-                return true;
+                return false;
             }
         }
     }
@@ -90,7 +109,11 @@ internal class Actions
         internal int cost = 15;
         [SerializeField]
         internal int damage = 20;
-        internal bool DoAttack(Actor attacker, Actor defender)
+        public HeavyAttack()
+        {
+            name = "Heavy attack";
+        }
+        public override bool DoAction(Actor attacker, Actor defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
 
@@ -125,7 +148,12 @@ internal class Actions
         internal int cost = 15;
         [SerializeField]
         internal int damage = 20;
-        internal bool DoAttack(Actor attacker, Actor defender)
+
+        public PierceAttack()
+        {
+            name = "Pierce attack";
+        }
+        public override bool DoAction(Actor attacker, Actor defender)
         {
             if (!CheckEnergy(attacker, cost)) return false;
 
@@ -160,12 +188,16 @@ internal class Actions
         internal int cost = 20;
         [SerializeField]
         internal bool isUsed = false;
-        internal bool Do(Actor actor)
+
+        public ShieldUp()
+        {
+            name = "Shield up";
+        }
+        public override bool DoAction(Actor actor)
         {
             if (!CheckEnergy(actor, cost)) return false;
             actor.unit.energy -= cost;
             actor.unit.shield = actor.unit.max_Shield;
-            Debug.Log(actor + " Поднял щит");
             return true;
         }
     }
@@ -174,7 +206,12 @@ internal class Actions
 	{
         [SerializeField]
         internal int cost = 25;
-        internal bool Do(Actor actor)
+
+        public TryToEvade()
+        {
+            name = "Try to evade";
+        }
+        public override bool DoAction(Actor actor)
         {
             if (!CheckEnergy(actor, cost)) return false;
             actor.unit.energy -= cost;
@@ -188,7 +225,12 @@ internal class Actions
 	{
         [SerializeField]
         internal int cost = 0;
-        internal bool Do(Actor actor)
+
+        public SkipTurn()
+        {
+            name = "Skip turn";
+        }
+        public override bool DoAction(Actor actor)
         {
             if (!CheckEnergy(actor, cost)) return false;
             actor.unit.energy -= cost;

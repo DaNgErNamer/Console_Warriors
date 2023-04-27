@@ -28,6 +28,9 @@ public class Unit
     [SerializeField]
     internal Actions actions = new Actions();
 
+    [SerializeField]
+    internal List<Actions> actionList = new List<Actions>(); 
+
     #region stats
     [SerializeField]
     public List<Traits.traits> traitList = new List<Traits.traits>();

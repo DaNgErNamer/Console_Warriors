@@ -18,10 +18,14 @@ public class BarStatusScript : MonoBehaviour
     public TMP_Text EnergyText;
     public TMP_Text ArmorText;
 
+    public GameObject actionButton_template;
     public GameObject EffectsPanel;
+    public GameObject ActionsPanel;
+    public GameObject ActionsPanel_Grid;
 
     public GameObject MenuWindow;
     public GameObject InventoryWindow;
+
     internal void Initialization(Unit actor)
     {
         
